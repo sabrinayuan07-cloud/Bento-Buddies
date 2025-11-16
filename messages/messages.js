@@ -3,7 +3,7 @@ const contacts = [
     {
         id: 'eten',
         name: 'Eten Hunt',
-        role: 'Agents',
+        role: '',
         avatar: '🦝',
         lastMessage: "Thank you very much. I'm glad ...",
         time: '',
@@ -12,7 +12,7 @@ const contacts = [
     {
         id: 'jakob',
         name: 'Jakob Saris',
-        role: 'Property manager',
+        role: '',
         avatar: '🦝',
         lastMessage: 'You : Sure! let me tell you about w...',
         time: '',
@@ -37,8 +37,8 @@ const contacts = [
         unread: true
     },
     {
-        id: 'jeremy2',
-        name: 'Jeremy Zucker',
+        id: 'emilyz',
+        name: 'Emily Zhang',
         role: '',
         avatar: '🦝',
         lastMessage: 'You : Sure! let me teach you about ...',
@@ -46,8 +46,8 @@ const contacts = [
         unread: false
     },
     {
-        id: 'jeremy3',
-        name: 'Jeremy Zucker',
+        id: 'carolina5',
+        name: 'Carolina Fernandez',
         role: '',
         avatar: '🦝',
         lastMessage: 'You : Sure! let me teach you about ...',
