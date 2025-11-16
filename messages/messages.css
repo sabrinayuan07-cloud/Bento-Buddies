@@ -5,159 +5,135 @@
 }
 
 body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-    background-color: #FFF5F3;
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+    min-height: 100vh;
 }
 
-/* Navigation Bar */
+/* Navigation */
 nav {
-    background-color: #FFF;
+    background-color: white;
     padding: 20px 0;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    border-bottom: 1px solid #e0e0e0;
+    margin-bottom: 20px;
 }
 
 .nav-container {
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto;
     display: flex;
-    justify-content: space-around;
-    align-items: center;
+    justify-content: center;
+    gap: 40px;
+    padding: 0 20px;
 }
 
 nav button {
-    background: none;
+    background-color: transparent;
     border: none;
-    font-size: 18px;
-    font-weight: 500;
-    cursor: pointer;
     padding: 10px 20px;
-    transition: color 0.3s;
+    font-size: 18px;
+    cursor: pointer;
+    font-weight: 500;
+    color: #333;
+    transition: all 0.2s;
+}
+
+nav button.active {
+    font-weight: 700;
+    color: #000;
 }
 
 nav button:hover {
-    color: #FF93A9;
+    opacity: 0.7;
 }
 
 nav a {
     text-decoration: none;
-    color: #000;
 }
 
-.active {
-    font-weight: 700 !important;
-}
-
-/* Hero Banner */
-.hero-banner {
-    background: linear-gradient(90deg, #FF8375 0%, #FF93A9 33%, #FFC5D3 100%);
-    padding: 40px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.hero-text h1 {
-    font-size: 36px;
-    margin-bottom: 10px;
-}
-
-.hero-text p {
-    font-size: 24px;
-}
-
-.hero-text em {
-    font-style: italic;
-}
-
-.hero-image img {
-    width: 250px;
-    height: 250px;
-}
-
-/* Messages Container */
 .messages-container {
-    display: flex;
-    padding: 30px;
-    gap: 20px;
     max-width: 1400px;
     margin: 0 auto;
-    height: calc(100vh - 200px);
+    padding: 0 20px;
+    display: flex;
+    gap: 20px;
+    height: calc(100vh - 140px);
 }
 
-/* Contacts Sidebar */
 .contacts-sidebar {
-    background: white;
-    border-radius: 20px;
-    width: 350px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    overflow: hidden;
+    width: 400px;
+    background-color: white;
+    border-radius: 12px;
     display: flex;
     flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .search-container {
     padding: 20px;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid #f0f0f0;
 }
 
 .search-box {
-    background: #f5f5f5;
-    border-radius: 25px;
-    padding: 12px 20px;
     display: flex;
     align-items: center;
-    gap: 10px;
+    background-color: #f8f8f8;
+    border-radius: 25px;
+    padding: 12px 20px;
+    border: 1px solid #e0e0e0;
 }
 
 .search-box input {
     border: none;
+    background-color: transparent;
+    margin-left: 10px;
     outline: none;
-    background: none;
-    flex: 1;
-    font-size: 14px;
-    color: #333;
+    font-size: 15px;
+    width: 100%;
 }
 
-.search-box input::placeholder {
-    color: #999;
-}
-
-/* Contact List */
 .contact-list {
-    flex: 1;
     overflow-y: auto;
+    flex: 1;
 }
 
 .contact-item {
-    padding: 15px 20px;
+    padding: 16px 20px;
+    border-bottom: 1px solid #f5f5f5;
+    cursor: pointer;
+    background-color: white;
+    transition: background-color 0.2s;
     display: flex;
     align-items: center;
-    gap: 15px;
-    cursor: pointer;
-    transition: background 0.2s;
-    border-bottom: 1px solid #f5f5f5;
+    gap: 12px;
 }
 
 .contact-item:hover {
-    background: #FFF5F3;
+    background-color: #fafafa;
 }
 
 .contact-item.active {
-    background: #FFE5EC;
+    background-color: #f8f8f8;
 }
 
 .contact-avatar {
-    width: 10px;
-    height: 10px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #FFB6C1 0%, #FFC5D3 100%);
+    background-color: #FFB380;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 20px;
-    font-weight: 100;
-    color: white;
     flex-shrink: 0;
+    font-size: 24px;
+    overflow: hidden;
+}
+
+.contact-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 .contact-info {
@@ -165,200 +141,198 @@ nav a {
     min-width: 0;
 }
 
-.contact-name {
-    font-weight: 600;
-    font-size: 16px;
+.contact-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
     margin-bottom: 4px;
 }
 
-.contact-preview {
-    font-size: 14px;
+.contact-name {
+    font-weight: 600;
+    font-size: 15px;
+}
+
+.contact-role {
+    font-size: 12px;
+    color: #999;
+}
+
+.contact-message {
+    margin: 0;
+    font-size: 13px;
     color: #666;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
 
+.contact-status {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+}
+
 .contact-time {
     font-size: 12px;
     color: #999;
-    flex-shrink: 0;
 }
 
-/* Conversation Area */
+.unread-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #FF6B6B;
+}
+
+.read-check {
+    color: #4A90E2;
+    font-size: 18px;
+}
+
+/* Right Side - Conversation */
 .conversation-area {
     flex: 1;
-    background: white;
-    border-radius: 20px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    background-color: white;
+    border-radius: 12px;
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Messages Area */
 .messages-area {
     flex: 1;
     padding: 30px;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 16px;
 }
 
-.empty-state {
+.message-wrapper {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    color: #999;
 }
 
-.empty-state svg {
-    margin-bottom: 20px;
+.message-wrapper.sent {
+    align-items: flex-end;
 }
 
-.empty-state p {
-    font-size: 18px;
+.message-wrapper.received {
+    align-items: flex-start;
 }
 
-/* Message Bubbles */
-.message {
+.voice-note {
+    background-color: #FFD4E0;
+    border-radius: 20px;
+    padding: 12px 20px;
+    margin-bottom: 8px;
     display: flex;
+    align-items: center;
     gap: 10px;
-    max-width: 70%;
+    width: 250px;
 }
 
-.message.sent {
-    align-self: flex-end;
-    flex-direction: row-reverse;
-}
-
-.message.received {
-    align-self: flex-start;
-}
-
-.message-avatar {
-    width: 35px;
-    height: 35px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #FFB6C1 0%, #FFC5D3 100%);
+.voice-waveform {
     display: flex;
+    gap: 2px;
     align-items: center;
-    justify-content: center;
-    font-size: 14px;
-    font-weight: 600;
-    color: white;
-    flex-shrink: 0;
+    flex: 1;
 }
 
-.message-content {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
+.wave-bar {
+    width: 3px;
+    background-color: #FF6B9D;
+    border-radius: 2px;
 }
 
 .message-bubble {
-    padding: 12px 18px;
-    border-radius: 18px;
+    border-radius: 20px;
+    padding: 12px 20px;
+    max-width: 60%;
+}
+
+.message-bubble.sent {
+    background-color: #f0f0f0;
+}
+
+.message-bubble.received {
+    background-color: #FFD4E0;
+}
+
+.message-bubble p {
+    margin: 0;
     font-size: 15px;
     line-height: 1.4;
-    word-wrap: break-word;
-}
-
-.message.sent .message-bubble {
-    background: linear-gradient(90deg, #FF8375 0%, #FF93A9 50%, #FFC5D3 100%);
-    color: white;
-    border-bottom-right-radius: 4px;
-}
-
-.message.received .message-bubble {
-    background: #f5f5f5;
-    color: #333;
-    border-bottom-left-radius: 4px;
 }
 
 .message-time {
-    font-size: 11px;
+    font-size: 12px;
     color: #999;
-    padding: 0 5px;
+    margin-top: 4px;
 }
 
-.message.sent .message-time {
-    text-align: right;
+.sent .message-time {
+    margin-right: 12px;
 }
 
-/* Input Area */
+.received .message-time {
+    margin-left: 12px;
+}
+
 .input-area {
-    padding: 20px;
-    border-top: 1px solid #eee;
+    padding: 20px 30px;
+    border-top: 1px solid #f0f0f0;
     display: flex;
-    gap: 10px;
+    gap: 12px;
     align-items: center;
 }
 
 .message-input-container {
     flex: 1;
-    background: #f5f5f5;
-    border-radius: 25px;
-    padding: 12px 20px;
     display: flex;
     align-items: center;
-    gap: 10px;
+    background-color: white;
+    border: 2px solid #e0e0e0;
+    border-radius: 25px;
+    padding: 12px 20px;
 }
 
 .message-input-container input {
-    flex: 1;
     border: none;
     outline: none;
-    background: none;
+    flex: 1;
     font-size: 15px;
-    color: #333;
-}
-
-.message-input-container input::placeholder {
-    color: #999;
 }
 
 .attachment-btn {
     background: none;
     border: none;
     cursor: pointer;
-    padding: 5px;
+    padding: 4px;
     display: flex;
     align-items: center;
-    justify-content: center;
-    transition: opacity 0.2s;
-}
-
-.attachment-btn:hover {
-    opacity: 0.7;
 }
 
 .send-btn {
-    width: 45px;
-    height: 45px;
-    border-radius: 50%;
-    background: linear-gradient(90deg, #FF8375 0%, #FF93A9 50%, #FFC5D3 100%);
+    background-color: #FFB3C6;
     border: none;
-    cursor: pointer;
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: transform 0.2s;
-    flex-shrink: 0;
+    cursor: pointer;
+    transition: background-color 0.2s;
 }
 
 .send-btn:hover {
-    transform: scale(1.05);
+    background-color: #FF9BB3;
 }
 
-.send-btn:active {
-    transform: scale(0.95);
-}
-
-/* Scrollbar Styling */
 .contact-list::-webkit-scrollbar,
 .messages-area::-webkit-scrollbar {
     width: 6px;
@@ -366,16 +340,16 @@ nav a {
 
 .contact-list::-webkit-scrollbar-track,
 .messages-area::-webkit-scrollbar-track {
-    background: transparent;
+    background: #f1f1f1;
 }
 
 .contact-list::-webkit-scrollbar-thumb,
 .messages-area::-webkit-scrollbar-thumb {
-    background: #ddd;
+    background: #ccc;
     border-radius: 3px;
 }
 
 .contact-list::-webkit-scrollbar-thumb:hover,
 .messages-area::-webkit-scrollbar-thumb:hover {
-    background: #ccc;
+    background: #999;
 }

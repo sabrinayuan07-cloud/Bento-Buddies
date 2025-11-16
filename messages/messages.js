@@ -1,3 +1,4 @@
+
 const contacts = [
     {
         id: 'eten',
@@ -89,7 +90,7 @@ const conversations = {
             time: '5 m Ago'
         }
     ],
-    emilyz: [
+    jeremy2: [
         {
             id: 1,
             sender: 'sent',
@@ -97,7 +98,7 @@ const conversations = {
             time: '4 m Ago'
         }
     ],
-    carolina5: [
+    jeremy3: [
         {
             id: 1,
             sender: 'sent',
@@ -220,10 +221,6 @@ function sendMessage() {
         message: text,
         time: 'Just now'
     };
-
-    if (!conversations[selectedContactId]) {
-        conversations[selectedContactId] = [];
-    }
 
     conversations[selectedContactId].push(newMessage);
 
