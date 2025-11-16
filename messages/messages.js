@@ -4,7 +4,7 @@ const contacts = [
         id: 'eten',
         name: 'Eten Hunt',
         role: '',
-        avatar: '🦝',
+        avatar: 'images/panda1.png',
         lastMessage: "Thank you very much. I'm glad ...",
         time: '',
         unread: false
@@ -13,7 +13,7 @@ const contacts = [
         id: 'jakob',
         name: 'Jakob Saris',
         role: '',
-        avatar: '🦝',
+        avatar: 'images/panda2.png',
         lastMessage: 'You : Sure! let me tell you about w...',
         time: '',
         unread: false
@@ -22,7 +22,7 @@ const contacts = [
         id: 'jeremy1',
         name: 'Jeremy Zucker',
         role: '',
-        avatar: '🦝',
+        avatar: 'images/panda3.png',
         lastMessage: 'You : Sure! let me teach you about ...',
         time: '4 m Ago',
         unread: false
@@ -31,7 +31,7 @@ const contacts = [
         id: 'nadia',
         name: 'Nadia Lauren',
         role: '',
-        avatar: '🦝',
+        avatar: 'images/panda4.png',
         lastMessage: 'Is there anything I can help? Just ...',
         time: '5 m Ago',
         unread: true
@@ -40,7 +40,7 @@ const contacts = [
         id: 'emilyz',
         name: 'Emily Zhang',
         role: '',
-        avatar: '🦝',
+        avatar: 'images/panda5.png',
         lastMessage: 'You : Sure! let me teach you about ...',
         time: '4 m Ago',
         unread: false
@@ -49,7 +49,7 @@ const contacts = [
         id: 'carolina5',
         name: 'Carolina Fernandez',
         role: '',
-        avatar: '🦝',
+        avatar: 'images/panda1.png',
         lastMessage: 'You : Sure! let me teach you about ...',
         time: '4 m Ago',
         unread: false
@@ -142,7 +142,7 @@ function renderContacts() {
 
         contactDiv.innerHTML = `
             <div class="contact-avatar">
-                ${contact.avatar}
+                <img src="${contact.avatar}" alt="${contact.name}">
             </div>
             <div class="contact-info">
                 <div class="contact-header">
