@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Events - Food Finder</title>
+    <link rel="stylesheet" href="events.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-links">
+            <a href="home.html"><button>Home</button></a>
+            <a href="maps.html"><button>Maps</button></a>
+            <a href="Events.html"><button class="active">Events</button></a>
+            <a href="Messages.html"><button>Messages</button></a>
+            <a href="Profile.html"><button>Profile</button></a>
+        </div>
+        <img src="events/RedPanda.png" alt="Profile" class="profile-avatar">
+    </nav>
+
+    <div class="container">
+        <!-- Search Bar -->
+        <div class="search-container">
+            <input type="text" class="search-bar" placeholder="🔍 Search an event..." id="searchBar">
+        </div>
+
+        <!-- Happening Today -->
+        <div class="section-header">
+            <h2>Happening Today</h2>
+        </div>
+        <div class="events-grid" id="todayEvents">
+            <!-- Events will be populated by JavaScript -->
+        </div>
+
+        <!-- Future Events -->
+        <div class="section-header">
+            <h2>Future Events</h2>
+            <button class="plan-visit-btn" onclick="openPlanModal()">Plan a Visit</button>
+        </div>
+        <div class="future-events-grid" id="futureEvents">
+            <!-- Future events will be populated by JavaScript -->
+        </div>
+    </div>
+
+    <!-- Plan Visit Modal -->
+    <div class="modal" id="planModal">
+        <div class="modal-content">
+            <div class="modal-header">Plan Your Visit</div>
+            <div class="form-group">
+                <label for="visitRestaurant">Restaurant</label>
+                <select id="visitRestaurant" required>
+                    <option value="">Select a restaurant</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="visitDateTime">Date & Time</label>
+                <input type="datetime-local" id="visitDateTime" required>
+            </div>
+            <div class="modal-buttons">
+                <button class="modal-btn cancel-btn" onclick="closePlanModal()">Cancel</button>
+                <button class="modal-btn create-btn" id="createBtn" onclick="createVisit()">Create</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="events.js"></script>
+</body>
+</html>
