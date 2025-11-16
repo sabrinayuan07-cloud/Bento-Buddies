@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <link rel="stylesheet" href="profile.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Navigation -->
+        <nav>
+            <a href="home.html">
+                <button>Home</button>
+            </a>
+            <a href="maps.html">
+                <button>Maps</button>
+            </a>
+            <a href="Events.html">
+                <button>Events</button>
+            </a>
+            <a href="Messages.html">
+                <button>Messages</button>
+            </a>
+            <a href="Profile.html">
+                <button class="active">Profile</button>
+            </a>
+        </nav>
+
+        <!-- Profile -->
+        <div class="profile-container">
+            <div class="profile-header">
+                <div class="profile-pic">
+                    <div class="profile-pic-inner"></div>
+                </div>
+                
+                <div class="profile-info">
+                    <div class="profile-name">Emily Tate</div>
+                    <div class="profile-username">@eemily.tate</div>
+                    
+                    <button class="edit-btn">Edit</button>
+                </div>
+            </div>
+
+            <!-- Red Panda -->
+            <div class="bio-section">
+                <img src="red-panda.png" alt="Red Panda" class="red-panda">
+                <div class="bio-bubble">
+                    <p class="bio-text">Hi I'm Emily! I love grabbing a cookie and an iced matcha latte from Blue Chip between my classes! Never miss a day of sweet treats!!!!!!</p>
+                </div>
+            </div>
+
+            <!-- Profile Details -->
+            <div class="profile-details">
+                <!-- Left Column -->
+                <div>
+                    <div class="detail-item">
+                        <div class="detail-label">Year: <span class="detail-value">3</span></div>
+                    </div>
+                    
+                    <div class="detail-item" style="margin-top: 30px;">
+                        <div class="detail-label">Major: <span class="detail-value">Psychology</span></div>
+                    </div>
+                    
+                    <div class="food-items" style="margin-top: 30px;">
+                        <img src="noodles.png" alt="Noodles" class="food-item">
+                        <img src="ramen.png" alt="Ramen" class="food-item">
+                        <img src="taco.png" alt="Taco" class="food-item">
+                    </div>
+                </div>
+
+                <!-- Right Column -->
+                <div>
+                    <div class="detail-item">
+                        <div class="detail-label">Personality:</div>
+                        <div class="personality-tags">
+                            <span class="tag">Hungry</span>
+                            <span class="tag">Easygoing</span>
+                            <span class="tag">Kind</span>
+                        </div>
+                    </div>
+                    
+                    <div class="detail-item" style="margin-top: 30px;">
+                        <div class="detail-label">Fun Fact: <span class="detail-value" style="font-weight: normal;">Have never tried bubble tea</span></div>
+                    </div>
+                    
+                    <div class="detail-item" style="margin-top: 30px;">
+                        <div class="detail-label">Last Meal on Earth: <span class="detail-value" style="font-weight: normal;">Carbonara</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="profile.js"></script>
+</body>
+</html>
