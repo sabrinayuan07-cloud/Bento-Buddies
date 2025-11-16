@@ -1,4 +1,4 @@
-// Contact data
+
 const contacts = [
     {
         id: 'eten',
@@ -56,7 +56,6 @@ const contacts = [
     }
 ];
 
-// Conversation data
 const conversations = {
     jakob: [
         {
@@ -109,18 +108,15 @@ const conversations = {
     ]
 };
 
-// State
 let selectedContactId = 'jakob';
 let searchQuery = '';
 
-// DOM Elements
 const contactList = document.getElementById('contactList');
 const messagesArea = document.getElementById('messagesArea');
 const searchInput = document.getElementById('searchInput');
 const messageInput = document.getElementById('messageInput');
 const sendBtn = document.getElementById('sendBtn');
 
-// Render contacts
 function renderContacts() {
     const filteredContacts = contacts.filter(contact =>
         contact.name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -161,7 +157,6 @@ function renderContacts() {
     });
 }
 
-// Generate waveform bars
 function generateWaveform() {
     let html = '';
     for (let i = 0; i < 30; i++) {
@@ -171,7 +166,6 @@ function generateWaveform() {
     return html;
 }
 
-// Render messages
 function renderMessages() {
     const conversation = conversations[selectedContactId] || [];
     messagesArea.innerHTML = '';
@@ -202,15 +196,12 @@ function renderMessages() {
         messagesArea.appendChild(messageWrapper);
     });
 
-    // Scroll to bottom
     messagesArea.scrollTop = messagesArea.scrollHeight;
 }
 
-// Select contact
 function selectContact(contactId) {
     selectedContactId = contactId;
     
-    // Mark as read
     const contact = contacts.find(c => c.id === contactId);
     if (contact) {
         contact.unread = false;
@@ -220,7 +211,6 @@ function selectContact(contactId) {
     renderMessages();
 }
 
-// Send message
 function sendMessage() {
     const text = messageInput.value.trim();
     if (!text) return;
@@ -232,25 +222,20 @@ function sendMessage() {
         time: 'Just now'
     };
 
-    // Add to conversation
     conversations[selectedContactId].push(newMessage);
 
-    // Update contact preview
     const contact = contacts.find(c => c.id === selectedContactId);
     if (contact) {
         contact.lastMessage = `You : ${text.substring(0, 30)}...`;
         contact.unread = false;
     }
 
-    // Clear input
     messageInput.value = '';
 
-    // Re-render
     renderContacts();
     renderMessages();
 }
 
-// Event Listeners
 searchInput.addEventListener('input', (e) => {
     searchQuery = e.target.value;
     renderContacts();
@@ -264,6 +249,5 @@ messageInput.addEventListener('keypress', (e) => {
     }
 });
 
-// Initial render
 renderContacts();
 renderMessages();

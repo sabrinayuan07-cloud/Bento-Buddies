@@ -51,7 +51,6 @@ nav a {
     text-decoration: none;
 }
 
-/* Main Container */
 .messages-container {
     max-width: 1400px;
     margin: 0 auto;
@@ -61,7 +60,6 @@ nav a {
     height: calc(100vh - 140px);
 }
 
-/* Left Sidebar - Contacts */
 .contacts-sidebar {
     width: 400px;
     background-color: white;
@@ -284,7 +282,6 @@ nav a {
     margin-left: 12px;
 }
 
-/* Input Area */
 .input-area {
     padding: 20px 30px;
     border-top: 1px solid #f0f0f0;
@@ -336,7 +333,6 @@ nav a {
     background-color: #FF9BB3;
 }
 
-/* Scrollbar Styling */
 .contact-list::-webkit-scrollbar,
 .messages-area::-webkit-scrollbar {
     width: 6px;
