@@ -64,7 +64,7 @@ nav a {
 }
 
 .search-bar {
-    background: #FFD6E0;
+    background: linear-gradient(90deg, #FF8375 0%, #FF93A9 10%, #FFC5D3 100%);
     border-radius: 30px;
     padding: 15px 25px;
     display: flex;
@@ -117,7 +117,7 @@ nav a {
 }
 
 .plan-visit-btn {
-    background: linear-gradient(90deg, #FF8375 0%, #FF93A9 50%, #FFC5D3 100%);
+    background: linear-gradient(90deg, #FF8375 0%, #FF93A9 100%);
     color: white;
     border: none;
     padding: 12px 30px;
@@ -148,7 +148,8 @@ nav a {
 
 /* Event Card */
 .event-card {
-    background: #FFD6E0;
+    background: linear-gradient(90deg, #fac7d1 25%, #FFC5D3 100%);
+    /* background: #f3bcca; */
     border-radius: 20px;
     min-width: 200px;
     padding: 20px;
