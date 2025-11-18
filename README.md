@@ -1,1 +1,3 @@
+# Bento Buddies
+
 Bento Buddies is a web app designed to help UBC students connect with others on campus for spontaneous or planned meals. Whether you're looking to meet new people, try a new restaurant, or find someone to eat with between classes, Bento Buddies makes it easy to match with students nearby.
