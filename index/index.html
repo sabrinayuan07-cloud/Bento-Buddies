@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Food Buddies - Find Food Buddies at UBC</title>
+    <title>Bento Buddies - Find Bento Buddies at UBC</title>
     <link rel="stylesheet" href="index.css">
 </head>
 <body>
@@ -11,7 +11,7 @@
     <section class="hero-section">
         <div class="hero-content">
             <div class="hero-text">
-                <h1>Find <span class="highlight">Food Buddies.</span></h1>
+                <h1>Find <span class="highlight">Bento Buddies.</span></h1>
                 <h1>Make Plans Easily.</h1>
                 <h1>Eat Happier at UBC.</h1>
                 <p>Match with students who want to eat at the same time and discover new spots around campus.</p>
@@ -121,7 +121,8 @@
             localStorage.setItem('userPicture', responsePayload.picture);
 
             // Redirect to home page
-            window.location.href = 'home.html';
+            window.location.href = "../home/Home.html";
+            // <a href="../home/Home.html"><button class="active">Home</button></a>
         }
 
         // Helper function to decode JWT token

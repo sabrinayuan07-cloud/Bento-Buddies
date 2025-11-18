@@ -69,8 +69,8 @@ nav a {
 }
 
 .profile-picture {
-    width: 280px;
-    height: 280px;
+    width: 200px;
+    height: 200px;
     border-radius: 50%;
     background: linear-gradient(135deg, #FFB6C1 0%, #FFC5D3 100%);
     border: 8px solid white;
@@ -219,7 +219,7 @@ nav a {
 }
 
 .username-input {
-    font-size: 32px !important;
+    font-size: 20px !important;
     color: #666;
     border: 2px solid #FF93A9;
     border-radius: 8px;
