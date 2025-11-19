@@ -91,6 +91,8 @@ nav a {
     box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     overflow: hidden;
     display: none;
+    max-height: calc(100vh - 200px);
+    overflow-y: auto;
 }
 
 .restaurant-card.active {
@@ -187,6 +189,15 @@ nav a {
     border-bottom: 3px solid #1E88E5;
 }
 
+/* Tab Content */
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
 .action-buttons {
     display: flex;
     gap: 15px;
@@ -257,6 +268,67 @@ nav a {
     font-size: 14px;
     display: flex;
     gap: 10px;
+}
+
+/* Reviews Styling */
+.review-item {
+    border-bottom: 1px solid #e0e0e0;
+    padding: 1rem 0;
+}
+
+.review-item:last-child {
+    border-bottom: none;
+}
+
+.review-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.review-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #ddd;
+}
+
+.review-author {
+    font-weight: 500;
+}
+
+.review-rating {
+    color: #fbbc04;
+    font-size: 14px;
+}
+
+.review-text {
+    color: #666;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.review-date {
+    color: #999;
+    font-size: 12px;
+    margin-top: 0.5rem;
+}
+
+/* About Tab Styling */
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.info-label {
+    color: #666;
+}
+
+.info-value {
+    font-weight: 500;
 }
 
 /* Map Container */
