@@ -53,7 +53,7 @@ nav a {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 60px 40px;
+    padding: 30px 40px;
 }
 
 .hero-content {
@@ -73,7 +73,7 @@ nav a {
 }
 
 .hero-text .highlight {
-    color: #FF93A9;
+    color: #f55575;
 }
 
 .hero-text p {
