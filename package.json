@@ -1,0 +1,24 @@
+{
+  "name": "hackcamp2025-1",
+  "version": "1.0.0",
+  "description": "Bento Buddies is a web app designed to help UBC students connect with others on campus for spontaneous or planned meals. Whether you're looking to meet new people, try a new restaurant, or find someone to eat with between classes, Bento Buddies makes it easy to meet students on campus.",
+  "main": "firebase-config.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sabrinayuan07-cloud/HackCamp2025.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/sabrinayuan07-cloud/HackCamp2025/issues"
+  },
+  "homepage": "https://github.com/sabrinayuan07-cloud/HackCamp2025#readme",
+  "dependencies": {
+    "firebase": "^12.6.0"
+  }
+}
