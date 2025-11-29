@@ -113,7 +113,7 @@ googleSignInBtn.addEventListener('click', async () => {
                 firstName: nameParts[0] || '',
                 lastName: nameParts.slice(1).join(' ') || '',
                 name: user.displayName || '',
-                username: `@${user.email?.split('@')[0] || 'user'}`,
+                username: user.email?.split('@')[0] || 'user',
                 profilePicture: user.photoURL || null,
                 year: '',
                 major: '',
@@ -125,8 +125,34 @@ googleSignInBtn.addEventListener('click', async () => {
                 createdAt: new Date().toISOString()
             };
             console.log('Saving Google user profile:', userData);
-            await setDoc(doc(db, 'users', user.uid), userData);
-            console.log('Google user profile saved successfully!');
+
+            try {
+                console.log('Attempting to save Google user to Firestore with UID:', user.uid);
+                await setDoc(doc(db, 'users', user.uid), userData);
+                console.log('✓ Google user profile saved successfully!');
+            } catch (firestoreError) {
+                console.error('❌ FIRESTORE SAVE FAILED FOR GOOGLE USER!');
+                console.error('Firestore error:', firestoreError);
+                console.error('Error code:', firestoreError.code);
+                console.error('Error message:', firestoreError.message);
+
+                if (firestoreError.code === 'permission-denied') {
+                    alert('⚠️ FIRESTORE PERMISSION DENIED!\n\nYou need to update your Firestore Security Rules.\n\nSee browser console for instructions.');
+                    console.error('========================================');
+                    console.error('FIRESTORE RULES NEEDED - Copy and paste into Firebase Console:');
+                    console.error('rules_version = \'2\';');
+                    console.error('service cloud.firestore {');
+                    console.error('  match /databases/{database}/documents {');
+                    console.error('    match /users/{userId} {');
+                    console.error('      allow read: if request.auth != null;');
+                    console.error('      allow write: if request.auth != null && request.auth.uid == userId;');
+                    console.error('    }');
+                    console.error('  }');
+                    console.error('}');
+                    console.error('========================================');
+                }
+                throw firestoreError;
+            }
         } else {
             console.log('Existing user profile found, logging in...');
         }
@@ -365,9 +391,35 @@ async function createAccount() {
         console.log('Saving user profile to Firestore:', userData);
 
         // Create user profile in Firestore
-        await setDoc(doc(db, 'users', user.uid), userData);
+        try {
+            console.log('Attempting to save to Firestore with UID:', user.uid);
+            await setDoc(doc(db, 'users', user.uid), userData);
+            console.log('✓ User profile saved to Firestore successfully!');
+        } catch (firestoreError) {
+            console.error('❌ FIRESTORE SAVE FAILED!');
+            console.error('Firestore error:', firestoreError);
+            console.error('Error code:', firestoreError.code);
+            console.error('Error message:', firestoreError.message);
 
-        console.log('User profile saved to Firestore successfully!');
+            // This is likely a permissions error - show helpful message
+            if (firestoreError.code === 'permission-denied') {
+                alert('⚠️ FIRESTORE PERMISSION DENIED!\n\nYou need to update your Firestore Security Rules in Firebase Console.\n\nGo to: Firebase Console > Firestore Database > Rules\n\nAnd add the rules shown in the browser console.');
+                console.error('========================================');
+                console.error('FIRESTORE RULES NEEDED:');
+                console.error('rules_version = \'2\';');
+                console.error('service cloud.firestore {');
+                console.error('  match /databases/{database}/documents {');
+                console.error('    match /users/{userId} {');
+                console.error('      allow read: if request.auth != null;');
+                console.error('      allow write: if request.auth != null && request.auth.uid == userId;');
+                console.error('    }');
+                console.error('  }');
+                console.error('}');
+                console.error('========================================');
+            }
+            throw firestoreError; // Re-throw to be caught by outer catch
+        }
+
         console.log('Account created successfully! Redirecting...');
 
         // Redirect happens automatically via onAuthStateChanged
@@ -376,7 +428,16 @@ async function createAccount() {
         console.error('Signup error:', error);
         console.error('Error code:', error.code);
         console.error('Error message:', error.message);
-        showError(signupError, getErrorMessage(error.code));
+
+        // Show user-friendly error message
+        if (error.message && error.message.includes('permission')) {
+            showError(signupError, 'Permission error. Please check the browser console for instructions.');
+        } else if (error.message && error.message.includes('Username is already taken')) {
+            showError(signupError, error.message);
+        } else {
+            showError(signupError, getErrorMessage(error.code));
+        }
+
         submitBtn.disabled = false;
         submitBtn.textContent = 'Create Account';
     }
