@@ -14,8 +14,12 @@ onAuthStateChanged(auth, async (user) => {
     }
 
     currentUser = user;
+
+    // Setup event listeners first (they don't depend on data)
+    setupEventListeners();
+
+    // Then load and display user profile data
     await loadUserProfile(user.uid);
-    initProfile();
 });
 
 // Load user profile from Firestore
@@ -25,16 +29,19 @@ async function loadUserProfile(uid) {
         if (userDoc.exists()) {
             profileData = userDoc.data();
             selectedFoods = [...(profileData.favoriteFoods || [])];
+
+            // NOW load the data into the UI (only after we have it!)
+            loadProfileData();
+        } else {
+            // No profile found - show message
+            document.getElementById('nameDisplay').textContent = 'Profile not found';
+            document.getElementById('bioDisplay').textContent = 'No profile data available';
         }
     } catch (error) {
         console.error('Error loading profile:', error);
+        document.getElementById('nameDisplay').textContent = 'Error loading profile';
+        document.getElementById('bioDisplay').textContent = 'Please try refreshing the page';
     }
-}
-
-// Initialize page
-function initProfile() {
-    loadProfileData();
-    setupEventListeners();
 }
 
 // Load profile data into UI
@@ -149,14 +156,39 @@ function setupEventListeners() {
 
     document.getElementById('confirmFoodBtn').addEventListener('click', saveFoods);
 
-    // Logout button (if exists in navigation)
-    const logoutBtn = document.querySelector('.logout-btn');
-    if (logoutBtn) {
-        logoutBtn.addEventListener('click', handleLogout);
-    }
-
     // Setup food emoji selection
     setupFoodEmojiSelection();
+
+    // Logout button
+    const logoutBtn = document.getElementById('logoutBtn');
+    const logoutModal = document.getElementById('logoutModal');
+    const cancelLogoutBtn = document.getElementById('cancelLogoutBtn');
+    const confirmLogoutBtn = document.getElementById('confirmLogoutBtn');
+
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', () => {
+            logoutModal.classList.add('active');
+        });
+    }
+
+    if (cancelLogoutBtn) {
+        cancelLogoutBtn.addEventListener('click', () => {
+            logoutModal.classList.remove('active');
+        });
+    }
+
+    if (confirmLogoutBtn) {
+        confirmLogoutBtn.addEventListener('click', handleLogout);
+    }
+
+    // Close modal when clicking outside
+    if (logoutModal) {
+        logoutModal.addEventListener('click', (e) => {
+            if (e.target === logoutModal) {
+                logoutModal.classList.remove('active');
+            }
+        });
+    }
 }
 
 // Toggle edit mode

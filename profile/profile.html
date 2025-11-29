@@ -37,15 +37,15 @@
             <!-- Year -->
             <div class="info-field">
                 <span class="label">Year:</span>
-                <span class="value" id="yearDisplay">3</span>
-                <input type="number" class="edit-input" id="yearInput" min="1" max="7" value="3" style="display: none;">
+                <span class="value" id="yearDisplay"></span>
+                <input type="number" class="edit-input" id="yearInput" min="1" max="7" value="" style="display: none;">
             </div>
 
             <!-- Major -->
             <div class="info-field">
                 <span class="label">Major:</span>
-                <span class="value" id="majorDisplay">Psychology</span>
-                <input type="text" class="edit-input" id="majorInput" value="Psychology" style="display: none;">
+                <span class="value" id="majorDisplay"></span>
+                <input type="text" class="edit-input" id="majorInput" value="" style="display: none;">
             </div>
 
             <!-- Favorite Foods -->
@@ -67,10 +67,10 @@
             <!-- Header with Name and Edit Button -->
             <div class="profile-header">
                 <div class="name-section">
-                    <h1 id="nameDisplay">Emily Tate</h1>
-                    <input type="text" class="edit-input name-input" id="nameInput" value="Emily Tate" style="display: none;">
-                    <p id="usernameDisplay">@eemily.tate</p>
-                    <input type="text" class="edit-input username-input" id="usernameInput" value="@eemily.tate" style="display: none;">
+                    <h1 id="nameDisplay">Loading...</h1>
+                    <input type="text" class="edit-input name-input" id="nameInput" value="" style="display: none;">
+                    <p id="usernameDisplay"></p>
+                    <input type="text" class="edit-input username-input" id="usernameInput" value="" style="display: none;">
                 </div>
                 <button class="edit-btn" id="editBtn">Edit</button>
             </div>
@@ -78,41 +78,40 @@
             <!-- Bio Section -->
             <div class="bio-section">
                 <img src="peeking.png" alt="Red Panda" class="peeking-panda">
-                <div class="bio-text" id="bioDisplay">
-                    Hi I'm Emily! I love grabbing a cookie and an iced matcha latte from Blue Chip between my classes! Never miss a day of sweet treats!!!!!!!
-                </div>
-                <textarea class="bio-input" id="bioInput" style="display: none;">Hi I'm Emily! I love grabbing a cookie and an iced matcha latte from Blue Chip between my classes! Never miss a day of sweet treats!!!!!!!</textarea>
+                <div class="bio-text" id="bioDisplay">Loading your profile...</div>
+                <textarea class="bio-input" id="bioInput" style="display: none;"></textarea>
             </div>
 
             <!-- Personality Tags -->
             <div class="personality-section">
                 <span class="label">Personality:</span>
-                <div class="tags-container" id="tagsContainer">
-                    <span class="tag">Hungry</span>
-                    <span class="tag">Easygoing</span>
-                    <span class="tag">Kind</span>
-                </div>
+                <div class="tags-container" id="tagsContainer"></div>
                 <button class="add-tag-btn" id="addTagBtn" style="display: none;">+ Add Tag</button>
             </div>
 
             <!-- Fun Fact -->
             <div class="info-row">
                 <span class="label">Fun Fact:</span>
-                <span class="value" id="funFactDisplay">Have never tried bubble tea</span>
-                <input type="text" class="edit-input" id="funFactInput" value="Have never tried bubble tea" style="display: none;">
+                <span class="value" id="funFactDisplay"></span>
+                <input type="text" class="edit-input" id="funFactInput" value="" style="display: none;">
             </div>
 
             <!-- Last Meal on Earth -->
             <div class="info-row">
                 <span class="label">Last Meal on Earth:</span>
-                <span class="value" id="lastMealDisplay">Carbonara</span>
-                <input type="text" class="edit-input" id="lastMealInput" value="Carbonara" style="display: none;">
+                <span class="value" id="lastMealDisplay"></span>
+                <input type="text" class="edit-input" id="lastMealInput" value="" style="display: none;">
             </div>
 
             <!-- Save/Cancel Buttons (hidden by default) -->
             <div class="action-buttons" id="actionButtons" style="display: none;">
                 <button class="cancel-btn" id="cancelBtn">Cancel</button>
                 <button class="save-btn" id="saveBtn">Save Changes</button>
+            </div>
+
+            <!-- Logout Button -->
+            <div class="logout-button-container">
+                <button class="logout-btn" id="logoutBtn">Logout</button>
             </div>
         </div>
     </div>
@@ -160,6 +159,18 @@
             <div class="modal-buttons">
                 <button class="modal-btn cancel-btn" id="cancelFoodBtn">Cancel</button>
                 <button class="modal-btn confirm-btn" id="confirmFoodBtn">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Logout Confirmation Modal -->
+    <div class="modal" id="logoutModal">
+        <div class="modal-content">
+            <h2>Confirm Logout</h2>
+            <p style="color: #666; margin: 1.5rem 0; text-align: center;">Are you sure you want to log out?</p>
+            <div class="modal-buttons">
+                <button class="modal-btn cancel-btn" id="cancelLogoutBtn">Cancel</button>
+                <button class="modal-btn confirm-btn" id="confirmLogoutBtn">Log Out</button>
             </div>
         </div>
     </div>

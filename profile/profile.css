@@ -561,3 +561,35 @@ nav a {
 .food-item.empty .food-emoji {
     display: none;
 }
+
+/* Logout Button */
+.logout-button-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid #eee;
+}
+
+.logout-btn {
+    background: #ff5252;
+    color: white;
+    border: none;
+    padding: 12px 32px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 2px 8px rgba(255, 82, 82, 0.2);
+}
+
+.logout-btn:hover {
+    background: #ff3838;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 82, 82, 0.3);
+}
+
+.logout-btn:active {
+    transform: translateY(0);
+}
