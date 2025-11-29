@@ -396,27 +396,24 @@
 }
 
 .divider {
-    text-align: center;
+    display: flex;
+    align-items: center;
     margin: 1.5rem 0;
-    position: relative;
+    color: #999;
 }
 
-.divider::before {
+.divider::before,
+.divider::after {
     content: '';
-    position: absolute;
-    left: 0;
-    top: 50%;
-    width: 100%;
+    flex: 1;
     height: 1px;
     background: #ddd;
 }
 
 .divider span {
-    background: white;
     padding: 0 1rem;
-    position: relative;
-    color: #999;
     font-size: 14px;
+    color: #999;
 }
 
 /* Error Messages */

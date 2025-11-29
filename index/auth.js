@@ -232,20 +232,26 @@ async function createAccount() {
         submitBtn.disabled = true;
         submitBtn.textContent = 'Creating Account...';
 
+        console.log('Starting account creation...');
+        console.log('Signup data:', signupData);
+
         // Create Firebase Auth user
         const userCredential = await createUserWithEmailAndPassword(auth, signupData.email, signupData.password);
         const user = userCredential.user;
+        console.log('User created in Firebase Auth:', user.uid);
 
         // Upload profile picture if exists
         let profilePictureURL = null;
         if (signupData.profilePicture) {
+            console.log('Uploading profile picture...');
             const storageRef = ref(storage, `profilePictures/${user.uid}`);
             await uploadBytes(storageRef, signupData.profilePicture);
             profilePictureURL = await getDownloadURL(storageRef);
+            console.log('Profile picture uploaded:', profilePictureURL);
         }
 
-        // Create user profile in Firestore
-        await setDoc(doc(db, 'users', user.uid), {
+        // Prepare user data
+        const userData = {
             email: signupData.email,
             firstName: signupData.firstName,
             lastName: signupData.lastName,
@@ -253,20 +259,29 @@ async function createAccount() {
             username: `@${signupData.firstName.toLowerCase()}.${signupData.lastName.toLowerCase()}`,
             year: signupData.year,
             major: signupData.major,
-            bio: signupData.bio,
-            personality: signupData.personality,
-            funFact: signupData.funFact,
-            lastMeal: signupData.lastMeal,
-            favoriteFoods: signupData.favoriteFoods,
+            bio: signupData.bio || '',
+            personality: signupData.personality || [],
+            funFact: signupData.funFact || '',
+            lastMeal: signupData.lastMeal || '',
+            favoriteFoods: signupData.favoriteFoods || [],
             profilePicture: profilePictureURL,
             createdAt: new Date().toISOString()
-        });
+        };
 
-        console.log('Account created successfully!');
+        console.log('Saving user profile to Firestore:', userData);
+
+        // Create user profile in Firestore
+        await setDoc(doc(db, 'users', user.uid), userData);
+
+        console.log('User profile saved to Firestore successfully!');
+        console.log('Account created successfully! Redirecting...');
+
         // Redirect happens automatically via onAuthStateChanged
 
     } catch (error) {
         console.error('Signup error:', error);
+        console.error('Error code:', error.code);
+        console.error('Error message:', error.message);
         showError(signupError, getErrorMessage(error.code));
         submitBtn.disabled = false;
         submitBtn.textContent = 'Create Account';

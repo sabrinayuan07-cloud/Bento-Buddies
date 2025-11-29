@@ -572,7 +572,7 @@ nav a {
 }
 
 .logout-btn {
-    background: #ff5252;
+    background: #FF93A9;
     color: white;
     border: none;
     padding: 12px 32px;
@@ -581,13 +581,13 @@ nav a {
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s;
-    box-shadow: 0 2px 8px rgba(255, 82, 82, 0.2);
+    box-shadow: 0 2px 8px rgba(255, 147, 169, 0.2);
 }
 
 .logout-btn:hover {
-    background: #ff3838;
+    background: #ff7a94;
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(255, 82, 82, 0.3);
+    box-shadow: 0 4px 12px rgba(255, 147, 169, 0.3);
 }
 
 .logout-btn:active {

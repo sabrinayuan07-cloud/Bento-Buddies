@@ -25,20 +25,27 @@ onAuthStateChanged(auth, async (user) => {
 // Load user profile from Firestore
 async function loadUserProfile(uid) {
     try {
+        console.log('Loading profile for user:', uid);
         const userDoc = await getDoc(doc(db, 'users', uid));
+        console.log('User document exists:', userDoc.exists());
+
         if (userDoc.exists()) {
             profileData = userDoc.data();
+            console.log('Profile data loaded:', profileData);
             selectedFoods = [...(profileData.favoriteFoods || [])];
 
             // NOW load the data into the UI (only after we have it!)
             loadProfileData();
         } else {
             // No profile found - show message
+            console.error('No profile found in Firestore for user:', uid);
             document.getElementById('nameDisplay').textContent = 'Profile not found';
-            document.getElementById('bioDisplay').textContent = 'No profile data available';
+            document.getElementById('bioDisplay').textContent = 'No profile data available. Please contact support.';
         }
     } catch (error) {
         console.error('Error loading profile:', error);
+        console.error('Error code:', error.code);
+        console.error('Error message:', error.message);
         document.getElementById('nameDisplay').textContent = 'Error loading profile';
         document.getElementById('bioDisplay').textContent = 'Please try refreshing the page';
     }
