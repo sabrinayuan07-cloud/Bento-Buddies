@@ -72,16 +72,20 @@ loginForm.addEventListener('submit', async (e) => {
 // Handle Google Sign-In
 googleSignInBtn.addEventListener('click', async () => {
     try {
+        console.log('Starting Google Sign-In...');
         const result = await signInWithPopup(auth, googleProvider);
         const user = result.user;
+        console.log('Google Sign-In successful:', user.email);
 
         // Check if user profile exists in Firestore
+        console.log('Checking if profile exists in Firestore...');
         const userDoc = await getDoc(doc(db, 'users', user.uid));
 
         if (!userDoc.exists()) {
+            console.log('Creating new profile for Google user...');
             // New Google user - create basic profile
             const nameParts = user.displayName?.split(' ') || ['', ''];
-            await setDoc(doc(db, 'users', user.uid), {
+            const userData = {
                 email: user.email,
                 firstName: nameParts[0] || '',
                 lastName: nameParts.slice(1).join(' ') || '',
@@ -96,13 +100,31 @@ googleSignInBtn.addEventListener('click', async () => {
                 lastMeal: '',
                 favoriteFoods: [],
                 createdAt: new Date().toISOString()
-            });
+            };
+            console.log('Saving Google user profile:', userData);
+            await setDoc(doc(db, 'users', user.uid), userData);
+            console.log('Google user profile saved successfully!');
+        } else {
+            console.log('Existing user profile found, logging in...');
         }
 
         // Redirect happens automatically via onAuthStateChanged
     } catch (error) {
         console.error('Google sign-in error:', error);
-        showError(loginError, getErrorMessage(error.code));
+        console.error('Error code:', error.code);
+        console.error('Error message:', error.message);
+
+        // Show more specific error message
+        let errorMessage = getErrorMessage(error.code);
+        if (error.code === 'auth/popup-closed-by-user') {
+            errorMessage = 'Sign-in cancelled. Please try again.';
+        } else if (error.code === 'auth/popup-blocked') {
+            errorMessage = 'Pop-up blocked. Please allow pop-ups for this site.';
+        } else if (error.code === 'auth/unauthorized-domain') {
+            errorMessage = 'This domain is not authorized for Google Sign-In. Please contact support.';
+        }
+
+        showError(loginError, errorMessage);
     }
 });
 
