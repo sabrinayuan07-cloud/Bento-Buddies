@@ -50,14 +50,14 @@
 
             <!-- Favorite Foods -->
             <div class="favorite-foods">
-                <div class="food-item" data-food="ramen">
-                    <img src="ramen.png" alt="Ramen">
+                <div class="food-item" data-index="0">
+                    <span class="food-emoji"></span>
                 </div>
-                <div class="food-item" data-food="rice">
-                    <img src="rice.png" alt="Rice">
+                <div class="food-item" data-index="1">
+                    <span class="food-emoji"></span>
                 </div>
-                <div class="food-item" data-food="taco">
-                    <img src="taco.png" alt="Taco">
+                <div class="food-item" data-index="2">
+                    <span class="food-emoji"></span>
                 </div>
             </div>
         </div>
@@ -134,20 +134,29 @@
         <div class="modal-content food-modal">
             <h2>Select Favorite Foods</h2>
             <p class="modal-subtitle">Choose up to 3 favorite foods</p>
-            <div class="food-grid">
-                <div class="food-option" data-food="ramen">
-                    <img src="ramen.png" alt="Ramen">
-                    <p>Ramen</p>
-                </div>
-                <div class="food-option" data-food="rice">
-                    <img src="rice.png" alt="Rice">
-                    <p>Rice Bowl</p>
-                </div>
-                <div class="food-option" data-food="taco">
-                    <img src="taco.png" alt="Taco">
-                    <p>Taco</p>
-                </div>
+            <div class="food-emoji-grid" id="profileFoodEmojiGrid">
+                <div class="food-emoji-item" data-emoji="🍕">🍕</div>
+                <div class="food-emoji-item" data-emoji="🍔">🍔</div>
+                <div class="food-emoji-item" data-emoji="🍜">🍜</div>
+                <div class="food-emoji-item" data-emoji="🍱">🍱</div>
+                <div class="food-emoji-item" data-emoji="🍣">🍣</div>
+                <div class="food-emoji-item" data-emoji="🌮">🌮</div>
+                <div class="food-emoji-item" data-emoji="🍝">🍝</div>
+                <div class="food-emoji-item" data-emoji="🍛">🍛</div>
+                <div class="food-emoji-item" data-emoji="🍲">🍲</div>
+                <div class="food-emoji-item" data-emoji="🥗">🥗</div>
+                <div class="food-emoji-item" data-emoji="🥪">🥪</div>
+                <div class="food-emoji-item" data-emoji="🌯">🌯</div>
+                <div class="food-emoji-item" data-emoji="🥙">🥙</div>
+                <div class="food-emoji-item" data-emoji="🍖">🍖</div>
+                <div class="food-emoji-item" data-emoji="🍗">🍗</div>
+                <div class="food-emoji-item" data-emoji="🥘">🥘</div>
+                <div class="food-emoji-item" data-emoji="🍤">🍤</div>
+                <div class="food-emoji-item" data-emoji="🥟">🥟</div>
+                <div class="food-emoji-item" data-emoji="🍢">🍢</div>
+                <div class="food-emoji-item" data-emoji="🥞">🥞</div>
             </div>
+            <div class="selected-count" id="profileFoodSelectedCount" style="text-align: center; margin: 1rem 0; color: #666; font-size: 14px;">0 / 3 selected</div>
             <div class="modal-buttons">
                 <button class="modal-btn cancel-btn" id="cancelFoodBtn">Cancel</button>
                 <button class="modal-btn confirm-btn" id="confirmFoodBtn">Save</button>
@@ -155,6 +164,6 @@
         </div>
     </div>
 
-    <script src="profile.js"></script>
+    <script type="module" src="profile-firebase.js"></script>
 </body>
 </html>
