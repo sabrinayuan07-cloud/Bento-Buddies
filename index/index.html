@@ -59,8 +59,8 @@
 
             <form id="loginForm">
                 <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" placeholder="Enter your email" required>
+                    <label for="email">Email or Username</label>
+                    <input type="text" id="email" placeholder="Enter your email or username" required>
                 </div>
 
                 <div class="form-group">
@@ -110,6 +110,11 @@
                 <div class="signup-form-group">
                     <label for="signupEmail">Email</label>
                     <input type="email" id="signupEmail" placeholder="your.email@ubc.ca" required>
+                </div>
+                <div class="signup-form-group">
+                    <label for="signupUsername">Username <span class="optional">(Optional - auto-generated from name if empty)</span></label>
+                    <input type="text" id="signupUsername" placeholder="e.g., sabrina_yuan or leave empty">
+                    <small id="usernameAvailability" style="display: none; margin-top: 0.5rem;"></small>
                 </div>
                 <div class="signup-form-group">
                     <label for="signupPassword">Password</label>

@@ -1,5 +1,6 @@
 // Import Firebase modules
 import { auth, db, storage, googleProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup, onAuthStateChanged, doc, setDoc, getDoc, ref, uploadBytes, getDownloadURL } from '../firebase-config.js';
+import { collection, query, where, getDocs } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
 
 // DOM Elements
 const loginBtn = document.getElementById('loginBtn');
@@ -19,6 +20,7 @@ const submitBtn = document.getElementById('submitBtn');
 let currentStep = 1;
 let signupData = {
     email: '',
+    username: '',
     password: '',
     firstName: '',
     lastName: '',
@@ -56,11 +58,32 @@ loginModal.addEventListener('click', (e) => {
 // Handle Email/Password Login
 loginForm.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const email = document.getElementById('email').value;
+    const emailOrUsername = document.getElementById('email').value.trim();
     const password = document.getElementById('password').value;
 
     try {
-        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        let loginEmail = emailOrUsername;
+
+        // Check if input is username (doesn't contain @) or email
+        if (!emailOrUsername.includes('@')) {
+            // It's a username - need to look up the email
+            console.log('Looking up email for username:', emailOrUsername);
+            const usersRef = collection(db, 'users');
+            const q = query(usersRef, where('username', '==', emailOrUsername));
+            const querySnapshot = await getDocs(q);
+
+            if (querySnapshot.empty) {
+                showError(loginError, 'Username not found');
+                return;
+            }
+
+            // Get the email from the user document
+            const userDoc = querySnapshot.docs[0];
+            loginEmail = userDoc.data().email;
+            console.log('Found email for username:', loginEmail);
+        }
+
+        const userCredential = await signInWithEmailAndPassword(auth, loginEmail, password);
         console.log('Logged in successfully:', userCredential.user);
         // Redirect happens automatically via onAuthStateChanged
     } catch (error) {
@@ -232,6 +255,7 @@ function validateCurrentStep() {
 function saveCurrentStepData() {
     if (currentStep === 1) {
         signupData.email = document.getElementById('signupEmail').value;
+        signupData.username = document.getElementById('signupUsername').value.trim();
         signupData.password = document.getElementById('signupPassword').value;
     }
 
@@ -249,6 +273,25 @@ function saveCurrentStepData() {
     }
 }
 
+// Check if username is available
+async function isUsernameAvailable(username) {
+    try {
+        const usersRef = collection(db, 'users');
+        const q = query(usersRef, where('username', '==', username));
+        const querySnapshot = await getDocs(q);
+        return querySnapshot.empty; // Returns true if no user has this username
+    } catch (error) {
+        console.error('Error checking username availability:', error);
+        return false;
+    }
+}
+
+// Generate username from first and last name
+function generateUsername(firstName, lastName) {
+    const username = `${firstName.toLowerCase()}.${lastName.toLowerCase()}`;
+    return username;
+}
+
 async function createAccount() {
     try {
         submitBtn.disabled = true;
@@ -256,6 +299,35 @@ async function createAccount() {
 
         console.log('Starting account creation...');
         console.log('Signup data:', signupData);
+
+        // Determine username: use entered username or auto-generate
+        let finalUsername = signupData.username;
+        if (!finalUsername) {
+            // Auto-generate from name
+            finalUsername = generateUsername(signupData.firstName, signupData.lastName);
+            console.log('Auto-generated username:', finalUsername);
+        }
+
+        // Check if username is available
+        let isAvailable = await isUsernameAvailable(finalUsername);
+
+        // If auto-generated username is taken, add number suffix
+        if (!isAvailable && !signupData.username) {
+            let counter = 1;
+            let testUsername = finalUsername;
+            while (!isAvailable && counter < 100) {
+                testUsername = `${finalUsername}${counter}`;
+                isAvailable = await isUsernameAvailable(testUsername);
+                if (isAvailable) {
+                    finalUsername = testUsername;
+                }
+                counter++;
+            }
+            console.log('Username was taken, using:', finalUsername);
+        } else if (!isAvailable && signupData.username) {
+            // User entered username is taken - show error
+            throw new Error('Username is already taken. Please choose a different username.');
+        }
 
         // Create Firebase Auth user
         const userCredential = await createUserWithEmailAndPassword(auth, signupData.email, signupData.password);
@@ -278,7 +350,7 @@ async function createAccount() {
             firstName: signupData.firstName,
             lastName: signupData.lastName,
             name: `${signupData.firstName} ${signupData.lastName}`,
-            username: `@${signupData.firstName.toLowerCase()}.${signupData.lastName.toLowerCase()}`,
+            username: finalUsername,
             year: signupData.year,
             major: signupData.major,
             bio: signupData.bio || '',
@@ -315,6 +387,7 @@ function resetSignupForm() {
     showStep(1);
     signupData = {
         email: '',
+        username: '',
         password: '',
         firstName: '',
         lastName: '',
@@ -330,6 +403,7 @@ function resetSignupForm() {
 
     // Clear all inputs
     document.getElementById('signupEmail').value = '';
+    document.getElementById('signupUsername').value = '';
     document.getElementById('signupPassword').value = '';
     document.getElementById('signupPasswordConfirm').value = '';
     document.getElementById('signupFirstName').value = '';
@@ -343,6 +417,13 @@ function resetSignupForm() {
     document.querySelectorAll('.food-emoji-item').forEach(item => item.classList.remove('selected'));
     document.getElementById('foodSelectedCount').textContent = '0 / 3 selected';
     resetProfilePicPreview();
+
+    // Clear username availability message
+    const usernameAvailability = document.getElementById('usernameAvailability');
+    if (usernameAvailability) {
+        usernameAvailability.style.display = 'none';
+        usernameAvailability.textContent = '';
+    }
 }
 
 // Personality Tags
@@ -436,6 +517,44 @@ function resetProfilePicPreview() {
             <div class="text">Click to upload</div>
         </div>
     `;
+}
+
+// Real-time username availability checking
+const signupUsernameInput = document.getElementById('signupUsername');
+const usernameAvailability = document.getElementById('usernameAvailability');
+let usernameCheckTimeout;
+
+if (signupUsernameInput) {
+    signupUsernameInput.addEventListener('input', (e) => {
+        const username = e.target.value.trim();
+
+        // Clear previous timeout
+        clearTimeout(usernameCheckTimeout);
+
+        if (!username) {
+            usernameAvailability.style.display = 'none';
+            usernameAvailability.textContent = '';
+            return;
+        }
+
+        // Show checking message
+        usernameAvailability.style.display = 'block';
+        usernameAvailability.textContent = 'Checking availability...';
+        usernameAvailability.style.color = '#666';
+
+        // Debounce the check
+        usernameCheckTimeout = setTimeout(async () => {
+            const isAvailable = await isUsernameAvailable(username);
+
+            if (isAvailable) {
+                usernameAvailability.textContent = '✓ Username is available';
+                usernameAvailability.style.color = '#4CAF50';
+            } else {
+                usernameAvailability.textContent = '✗ Username is already taken';
+                usernameAvailability.style.color = '#c62828';
+            }
+        }, 500); // Wait 500ms after user stops typing
+    });
 }
 
 // Helper Functions
