@@ -170,12 +170,7 @@ signupClose.addEventListener('click', () => {
     document.body.style.overflow = 'auto';
 });
 
-signupModal.addEventListener('click', (e) => {
-    if (e.target === signupModal) {
-        signupModal.classList.remove('active');
-        document.body.style.overflow = 'auto';
-    }
-});
+// Removed click outside to close - user must click X button to close signup modal
 
 // Step Navigation
 nextBtn.addEventListener('click', () => {
@@ -194,6 +189,23 @@ backBtn.addEventListener('click', () => {
 submitBtn.addEventListener('click', async () => {
     saveCurrentStepData();
     await createAccount();
+});
+
+// Handle Enter key to advance through signup steps
+document.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter' && signupModal.classList.contains('active')) {
+        e.preventDefault();
+
+        if (currentStep < 3) {
+            // On steps 1 and 2, Enter advances to next step
+            if (validateCurrentStep()) {
+                nextBtn.click();
+            }
+        } else {
+            // On step 3, Enter submits the form
+            submitBtn.click();
+        }
+    }
 });
 
 function showStep(step) {
