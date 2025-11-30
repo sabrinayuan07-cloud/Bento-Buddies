@@ -103,14 +103,14 @@ nav a {
 }
 
 .contact-item {
-    padding: 16px 20px;
+    padding: 18px 22px;
     border-bottom: 1px solid #f5f5f5;
     cursor: pointer;
     background-color: white;
     transition: background-color 0.2s;
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 14px;
 }
 
 .contact-item:hover {
@@ -125,13 +125,13 @@ nav a {
     width: 50px;
     height: 50px;
     border-radius: 50%;
-    background-color: #FFB380;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
     font-size: 24px;
     overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
 .contact-avatar img {
@@ -149,7 +149,7 @@ nav a {
     display: flex;
     align-items: center;
     gap: 8px;
-    margin-bottom: 4px;
+    margin-bottom: 6px;
 }
 
 .contact-name {
@@ -208,11 +208,11 @@ nav a {
 
 .messages-area {
     flex: 1;
-    padding: 30px;
+    padding: 35px 40px;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 20px;
 }
 
 .message-wrapper {
@@ -254,7 +254,7 @@ nav a {
 
 .message-bubble {
     border-radius: 20px;
-    padding: 12px 20px;
+    padding: 14px 22px;
     max-width: 60%;
 }
 
@@ -275,7 +275,7 @@ nav a {
 .message-time {
     font-size: 12px;
     color: #999;
-    margin-top: 4px;
+    margin-top: 6px;
 }
 
 .sent .message-time {
@@ -287,10 +287,10 @@ nav a {
 }
 
 .input-area {
-    padding: 20px 30px;
+    padding: 24px 35px;
     border-top: 1px solid #f0f0f0;
     display: flex;
-    gap: 12px;
+    gap: 14px;
     align-items: center;
 }
 
@@ -356,4 +356,220 @@ nav a {
 .contact-list::-webkit-scrollbar-thumb:hover,
 .messages-area::-webkit-scrollbar-thumb:hover {
     background: #999;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .messages-container {
+        padding: 40px 25px 0 25px;
+    }
+
+    .contacts-sidebar {
+        width: 350px;
+    }
+
+    .message-bubble {
+        max-width: 70%;
+    }
+}
+
+@media (max-width: 992px) {
+    nav button {
+        font-size: 16px;
+        padding: 8px 15px;
+    }
+
+    .messages-container {
+        padding: 30px 20px 0 20px;
+    }
+
+    .contacts-sidebar {
+        width: 320px;
+    }
+
+    .contact-avatar {
+        width: 45px;
+        height: 45px;
+        font-size: 22px;
+    }
+
+    .contact-name {
+        font-size: 14px;
+    }
+
+    .message-bubble {
+        max-width: 75%;
+        font-size: 14px;
+    }
+
+    .messages-area {
+        padding: 20px;
+    }
+
+    .input-area {
+        padding: 15px 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .nav-container {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    nav button {
+        font-size: 14px;
+        padding: 6px 12px;
+    }
+
+    .messages-container {
+        padding: 20px 15px 0 15px;
+        flex-direction: column;
+        height: auto;
+        min-height: calc(100vh - 120px);
+    }
+
+    .contacts-sidebar {
+        width: 100%;
+        max-height: 300px;
+        margin-bottom: 15px;
+    }
+
+    .conversation-area {
+        min-height: 500px;
+    }
+
+    .contact-item {
+        padding: 12px 15px;
+    }
+
+    .contact-avatar {
+        width: 40px;
+        height: 40px;
+        font-size: 20px;
+    }
+
+    .message-bubble {
+        max-width: 80%;
+        padding: 10px 16px;
+    }
+
+    .message-bubble p {
+        font-size: 14px;
+    }
+
+    .messages-area {
+        padding: 15px;
+    }
+
+    .input-area {
+        padding: 12px 15px;
+    }
+
+    .message-input-container {
+        padding: 10px 15px;
+    }
+
+    .send-btn {
+        width: 44px;
+        height: 44px;
+    }
+}
+
+@media (max-width: 480px) {
+    .nav-container {
+        justify-content: center;
+    }
+
+    nav button {
+        font-size: 12px;
+        padding: 5px 10px;
+    }
+
+    .messages-container {
+        padding: 15px 10px 0 10px;
+    }
+
+    .search-container {
+        padding: 15px;
+    }
+
+    .search-box {
+        padding: 10px 15px;
+    }
+
+    .search-box input {
+        font-size: 14px;
+    }
+
+    .contacts-sidebar {
+        max-height: 250px;
+    }
+
+    .contact-item {
+        padding: 10px 12px;
+    }
+
+    .contact-avatar {
+        width: 36px;
+        height: 36px;
+        font-size: 18px;
+    }
+
+    .contact-name {
+        font-size: 13px;
+    }
+
+    .contact-message {
+        font-size: 12px;
+    }
+
+    .contact-time {
+        font-size: 11px;
+    }
+
+    .conversation-area {
+        min-height: 450px;
+    }
+
+    .messages-area {
+        padding: 12px;
+        gap: 12px;
+    }
+
+    .message-bubble {
+        max-width: 85%;
+        padding: 8px 14px;
+    }
+
+    .message-bubble p {
+        font-size: 13px;
+    }
+
+    .message-time {
+        font-size: 11px;
+    }
+
+    .voice-note {
+        width: 200px;
+        padding: 10px 15px;
+    }
+
+    .input-area {
+        padding: 10px 12px;
+        gap: 8px;
+    }
+
+    .message-input-container {
+        padding: 8px 12px;
+    }
+
+    .message-input-container input {
+        font-size: 14px;
+    }
+
+    .send-btn {
+        width: 40px;
+        height: 40px;
+    }
 }

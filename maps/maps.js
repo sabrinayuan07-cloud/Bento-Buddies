@@ -18,8 +18,17 @@ function initMap() {
                 featureType: "poi",
                 elementType: "labels",
                 stylers: [{ visibility: "off" }]
+            },
+            {
+                featureType: "poi.school",
+                stylers: [{ visibility: "off" }]
             }
-        ]
+        ],
+        // Disable default UI elements that might show UBC
+        mapTypeControl: false,
+        fullscreenControl: true,
+        zoomControl: true,
+        streetViewControl: false
     });
 
     service = new google.maps.places.PlacesService(map);
@@ -377,4 +386,187 @@ document.getElementById('confirmBtn').addEventListener('click', () => {
         return;
     }
 
+});
+/* ========================================
+   PHOTO VIEWER FUNCTIONALITY
+   ======================================== */
+
+let currentPhotoIndex = 0;
+let currentPhotos = [];
+
+// Make restaurant image clickable
+document.getElementById('restaurantImage').addEventListener('click', () => {
+    if (currentPlaceDetails && currentPlaceDetails.photos && currentPlaceDetails.photos.length > 0) {
+        currentPhotos = currentPlaceDetails.photos;
+        currentPhotoIndex = 0;
+        openPhotoViewer();
+    }
+});
+
+// Make photo badge clickable
+document.querySelector('.photo-badge').addEventListener('click', () => {
+    if (currentPlaceDetails && currentPlaceDetails.photos && currentPlaceDetails.photos.length > 0) {
+        currentPhotos = currentPlaceDetails.photos;
+        currentPhotoIndex = 0;
+        openPhotoViewer();
+    }
+});
+
+function openPhotoViewer() {
+    const modal = document.getElementById('photoViewerModal');
+    const image = document.getElementById('photoViewerImage');
+    const counter = document.getElementById('photoCounter');
+
+    if (currentPhotos.length > 0) {
+        image.src = currentPhotos[currentPhotoIndex].getUrl({ maxWidth: 1200, maxHeight: 800 });
+        counter.textContent = `${currentPhotoIndex + 1} / ${currentPhotos.length}`;
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+}
+
+function closePhotoViewer() {
+    const modal = document.getElementById('photoViewerModal');
+    const image = document.getElementById('photoViewerImage');
+    image.classList.remove('zoomed');
+    modal.classList.remove('active');
+    document.body.style.overflow = 'auto';
+}
+
+function nextPhoto() {
+    if (currentPhotoIndex < currentPhotos.length - 1) {
+        currentPhotoIndex++;
+        const image = document.getElementById('photoViewerImage');
+        const counter = document.getElementById('photoCounter');
+        image.classList.remove('zoomed');
+        image.src = currentPhotos[currentPhotoIndex].getUrl({ maxWidth: 1200, maxHeight: 800 });
+        counter.textContent = `${currentPhotoIndex + 1} / ${currentPhotos.length}`;
+    }
+}
+
+function prevPhoto() {
+    if (currentPhotoIndex > 0) {
+        currentPhotoIndex--;
+        const image = document.getElementById('photoViewerImage');
+        const counter = document.getElementById('photoCounter');
+        image.classList.remove('zoomed');
+        image.src = currentPhotos[currentPhotoIndex].getUrl({ maxWidth: 1200, maxHeight: 800 });
+        counter.textContent = `${currentPhotoIndex + 1} / ${currentPhotos.length}`;
+    }
+}
+
+// Zoom in/out on image click
+document.getElementById('photoViewerImage').addEventListener('click', (e) => {
+    e.stopPropagation();
+    const image = e.target;
+    image.classList.toggle('zoomed');
+});
+
+// Photo viewer controls
+document.getElementById('photoCloseBtn').addEventListener('click', closePhotoViewer);
+document.getElementById('photoNextBtn').addEventListener('click', nextPhoto);
+document.getElementById('photoPrevBtn').addEventListener('click', prevPhoto);
+
+// Keyboard navigation
+document.addEventListener('keydown', (e) => {
+    const modal = document.getElementById('photoViewerModal');
+    if (modal.classList.contains('active')) {
+        if (e.key === 'ArrowRight') nextPhoto();
+        if (e.key === 'ArrowLeft') prevPhoto();
+        if (e.key === 'Escape') closePhotoViewer();
+    }
+});
+
+/* ========================================
+   IMPROVED FORM VALIDATION WITH SUCCESS POPUP
+   ======================================== */
+
+// Enhanced confirm button handler with new time picker and 10 spot limit
+const originalConfirmBtn = document.getElementById('confirmBtn');
+const newConfirmBtn = originalConfirmBtn.cloneNode(true);
+originalConfirmBtn.parentNode.replaceChild(newConfirmBtn, originalConfirmBtn);
+
+newConfirmBtn.addEventListener('click', () => {
+    const date = document.getElementById('meetupDate').value;
+    const hour = document.getElementById('meetupHour').value;
+    const minute = document.getElementById('meetupMinute').value;
+    const spots = parseInt(document.getElementById('meetupSpots').value);
+    const details = document.getElementById('meetupDetails').value;
+
+    // Clear previous errors
+    document.querySelectorAll('.error-icon').forEach(icon => icon.classList.remove('show'));
+    document.querySelectorAll('.input-wrapper').forEach(wrapper => {
+        wrapper.classList.remove('error');
+        wrapper.classList.remove('shake');
+    });
+
+    let hasError = false;
+
+    // Validate date
+    if (!date) {
+        document.getElementById('dateError').classList.add('show');
+        const wrapper = document.getElementById('meetupDate').parentElement;
+        wrapper.classList.add('error');
+        setTimeout(() => wrapper.classList.add('shake'), 10);
+        hasError = true;
+    }
+
+    // Validate time
+    if (!hour || !minute) {
+        document.getElementById('timeError').classList.add('show');
+        hasError = true;
+    }
+
+    // Validate spots (1-10 only)
+    if (!spots || spots < 1 || spots > 10) {
+        document.getElementById('spotsError').classList.add('show');
+        const wrapper = document.getElementById('meetupSpots').parentElement;
+        wrapper.classList.add('error');
+        setTimeout(() => wrapper.classList.add('shake'), 10);
+        hasError = true;
+        if (spots > 10) {
+            alert('Maximum 10 spots allowed!');
+        }
+    }
+
+    if (hasError) {
+        return;
+    }
+
+    // Success! Show success popup
+    document.getElementById('meetupModal').classList.remove('active');
+    document.getElementById('successPopup').classList.add('active');
+
+    // Auto-hide success popup after 2.5 seconds
+    setTimeout(() => {
+        document.getElementById('successPopup').classList.remove('active');
+        clearFormNew();
+    }, 2500);
+
+    console.log('Meetup created:', {
+        restaurant: selectedPlace?.name,
+        date,
+        time: `${hour}:${minute}`,
+        spots,
+        details
+    });
+});
+
+// Updated clearForm for new selects
+function clearFormNew() {
+    document.getElementById('meetupDate').value = '';
+    document.getElementById('meetupHour').value = '';
+    document.getElementById('meetupMinute').value = '';
+    document.getElementById('meetupSpots').value = '';
+    document.getElementById('meetupDetails').value = '';
+
+    document.querySelectorAll('.error-icon').forEach(icon => icon.classList.remove('show'));
+    document.querySelectorAll('.input-wrapper').forEach(wrapper => wrapper.classList.remove('error'));
+}
+
+// Click outside success popup to close
+document.getElementById('successPopup').addEventListener('click', (e) => {
+    if (e.target.id === 'successPopup') {
+        document.getElementById('successPopup').classList.remove('active');
+    }
 });

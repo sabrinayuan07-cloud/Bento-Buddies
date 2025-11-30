@@ -92,11 +92,24 @@ nav a {
 /* Statistics Section */
 .stats-section {
     background: linear-gradient(90deg, #FF8375 0%, #FF93A9 33%, #FFC5D3 100%);
-    padding: 60px 40px;
+    padding: 60px 40px 80px 40px;
     display: flex;
     justify-content: space-around;
     align-items: center;
     gap: 40px;
+    position: relative;
+}
+
+/* Add flowing transition to next section */
+.stats-section::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: linear-gradient(180deg, rgba(255, 197, 211, 0) 0%, #F9F9F9 100%);
+    pointer-events: none;
 }
 
 .stat {
@@ -246,5 +259,380 @@ nav a {
 
     .stat p {
         font-size: 16px;
+    }
+}
+/* ========================================
+   ADMIN DASHBOARD SECTION
+   ======================================== */
+
+.dashboard-section {
+    background: #FFF5F3;
+    padding: 40px 40px 80px 40px;
+    min-height: 100vh;
+}
+
+.dashboard-container {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.dashboard-title {
+    font-size: 48px;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 60px;
+    background: linear-gradient(90deg, #FF8375 0%, #FF93A9 50%, #FFC5D3 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Stats Grid */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    margin-bottom: 60px;
+}
+
+.stat-card {
+    background: white;
+    border-radius: 16px;
+    padding: 35px 30px;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    transition: all 0.3s ease;
+    border: 1px solid rgba(0,0,0,0.04);
+}
+
+.stat-card:hover {
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+    transform: translateY(-2px);
+}
+
+.stat-card h3 {
+    font-size: 48px;
+    font-weight: 700;
+    background: linear-gradient(135deg, #FF8375 0%, #FF93A9 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 12px;
+}
+
+.stat-card p {
+    font-size: 15px;
+    color: #666;
+    font-weight: 500;
+    margin-bottom: 12px;
+}
+
+.stat-card .trend {
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.trend.positive {
+    color: #4CAF50;
+}
+
+.trend.negative {
+    color: #FF5252;
+}
+
+/* Dashboard Section Block */
+.dashboard-section-block {
+    background: white;
+    border-radius: 16px;
+    padding: 40px;
+    margin-bottom: 40px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    border: 1px solid rgba(0,0,0,0.04);
+    transition: all 0.3s ease;
+}
+
+.dashboard-section-block:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.section-subtitle {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 30px;
+    color: #333;
+    letter-spacing: -0.5px;
+}
+
+/* Popular Restaurants */
+.restaurants-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.restaurant-item {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    background: #F9F9F9;
+    border-radius: 15px;
+    transition: all 0.3s ease;
+}
+
+.restaurant-item .rank {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #FF93A9, #FF8375);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: 700;
+    margin-right: 20px;
+    flex-shrink: 0;
+}
+
+.restaurant-info {
+    flex: 1;
+}
+
+.restaurant-info h4 {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.restaurant-info p {
+    font-size: 14px;
+    color: #666;
+}
+
+.restaurant-stats .stat-value {
+    font-size: 16px;
+    font-weight: 600;
+    color: #FF93A9;
+}
+
+/* Two Column Grid */
+.two-column-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+    gap: 40px;
+    margin-bottom: 40px;
+}
+
+/* Time Chart */
+.time-chart {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.time-bar {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.time-label {
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+}
+
+.bar-container {
+    width: 100%;
+    height: 30px;
+    background: #E0E0E0;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.bar {
+    height: 100%;
+    background: linear-gradient(90deg, #FF8375, #FF93A9);
+    border-radius: 15px;
+    transition: width 1s ease;
+}
+
+.time-count {
+    font-size: 14px;
+    color: #666;
+}
+
+/* Demographics */
+.demographics-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.demo-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.demo-label {
+    min-width: 120px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+}
+
+.demo-bar {
+    background: linear-gradient(90deg, #A8E6CF, #7BDCB5);
+    padding: 8px 15px;
+    border-radius: 10px;
+    color: white;
+    font-weight: 600;
+    font-size: 14px;
+    transition: width 1s ease;
+}
+
+/* Active Users Grid */
+.active-users-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 25px;
+}
+
+.active-user-card {
+    background: #F9F9F9;
+    border-radius: 15px;
+    padding: 25px;
+    text-align: center;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.user-rank {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #666;
+    background: rgba(0,0,0,0.05);
+    padding: 4px 10px;
+    border-radius: 12px;
+}
+
+.user-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin: 0 auto 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    font-weight: 700;
+    color: white;
+}
+
+.active-user-card h4 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.active-user-card p {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.user-meetups {
+    display: inline-block;
+    background: linear-gradient(90deg, #FF93A9, #FFC5D3);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 15px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+/* Responsive Dashboard */
+@media (max-width: 992px) {
+    .dashboard-section {
+        padding: 60px 30px;
+    }
+
+    .dashboard-title {
+        font-size: 38px;
+    }
+
+    .two-column-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .stat-card h3 {
+        font-size: 36px;
+    }
+}
+
+@media (max-width: 768px) {
+    .dashboard-section {
+        padding: 40px 20px;
+    }
+
+    .dashboard-title {
+        font-size: 32px;
+    }
+
+    .stats-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+    }
+
+    .stat-card {
+        padding: 20px;
+    }
+
+    .stat-card h3 {
+        font-size: 32px;
+    }
+
+    .dashboard-section-block {
+        padding: 25px;
+    }
+
+    .section-subtitle {
+        font-size: 24px;
+    }
+
+    .restaurant-item {
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
+    }
+
+    .restaurant-item .rank {
+        margin-right: 0;
+    }
+
+    .active-users-grid {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    }
+}
+
+@media (max-width: 480px) {
+    .dashboard-title {
+        font-size: 28px;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .active-users-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .two-column-grid {
+        gap: 20px;
     }
 }

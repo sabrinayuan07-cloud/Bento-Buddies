@@ -56,16 +56,24 @@ function loadProfileData() {
     document.getElementById('nameDisplay').textContent = profileData.name || '';
     document.getElementById('yearDisplay').textContent = profileData.year || '';
     document.getElementById('majorDisplay').textContent = profileData.major || '';
+    document.getElementById('emailDisplay').textContent = profileData.email || '';
     document.getElementById('bioDisplay').textContent = profileData.bio || '';
     document.getElementById('funFactDisplay').textContent = profileData.funFact || '';
     document.getElementById('lastMealDisplay').textContent = profileData.lastMeal || '';
 
     // Load profile picture
+    const img = document.getElementById('profileImg');
+    const uploadOverlay = document.getElementById('uploadOverlay');
+
     if (profileData.profilePicture) {
-        const img = document.getElementById('profileImg');
         img.src = profileData.profilePicture;
         img.style.display = 'block';
-        document.getElementById('uploadOverlay').style.opacity = '0';
+        uploadOverlay.style.opacity = '0';
+    } else {
+        // Set default pink user icon
+        img.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjRkZCM0M2Ii8+CjxjaXJjbGUgY3g9IjEwMCIgY3k9Ijc1IiByPSIzNSIgZmlsbD0id2hpdGUiLz4KPHBhdGggZD0iTTUwIDE3MEM1MCAxNDAgNzAgMTIwIDEwMCAxMjBDMTMwIDEyMCAxNTAgMTQwIDE1MCAxNzBMMTUwIDE4MEg1MFoiIGZpbGw9IndoaXRlIi8+Cjwvc3ZnPg==';
+        img.style.display = 'block';
+        uploadOverlay.style.opacity = '0';
     }
 
     // Load personality tags
@@ -145,12 +153,10 @@ function setupEventListeners() {
 
     document.getElementById('confirmTagBtn').addEventListener('click', addTag);
 
-    // Food items click - update to open emoji modal
+    // Food items click - open emoji modal directly (even when not editing)
     document.querySelectorAll('.food-item').forEach(item => {
         item.addEventListener('click', () => {
-            if (isEditing) {
-                openFoodModal();
-            }
+            openFoodModal();
         });
     });
 
@@ -240,6 +246,11 @@ function showInput(field) {
         display.style.display = 'none';
         input.style.display = field === 'bio' ? 'block' : 'inline-block';
         input.value = display.textContent;
+
+        // Add placeholder for bio if it's empty
+        if (field === 'bio' && !input.value.trim()) {
+            input.placeholder = 'Add bio here';
+        }
     }
 }
 
@@ -436,8 +447,19 @@ function updateFoodCount() {
 }
 
 // Save selected foods
-function saveFoods() {
+async function saveFoods() {
     profileData.favoriteFoods = [...selectedFoods];
+
+    // Update Firebase immediately
+    try {
+        await updateDoc(doc(db, 'users', currentUser.uid), {
+            favoriteFoods: profileData.favoriteFoods
+        });
+        console.log('Favorite foods saved to Firebase');
+    } catch (error) {
+        console.error('Error saving favorite foods:', error);
+    }
+
     loadFavoriteFoods();
     document.getElementById('foodModal').classList.remove('active');
 }
@@ -450,4 +472,88 @@ async function handleLogout() {
     } catch (error) {
         console.error('Error signing out:', error);
     }
+}
+
+/* ========================================
+   CALENDAR FUNCTIONALITY
+   ======================================== */
+
+let currentDate = new Date();
+const meetupDates = [30, 2, 5]; // Days with meetups (for demo)
+
+function renderCalendar() {
+    const calendarDays = document.getElementById('calendarDays');
+    const currentMonth = document.getElementById('currentMonth');
+
+    const year = currentDate.getFullYear();
+    const month = currentDate.getMonth();
+
+    // Set month name
+    const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
+        'July', 'August', 'September', 'October', 'November', 'December'];
+    currentMonth.textContent = `${monthNames[month]} ${year}`;
+
+    // Get first day of month and number of days
+    const firstDay = new Date(year, month, 1).getDay();
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+    const daysInPrevMonth = new Date(year, month, 0).getDate();
+
+    // Clear existing days
+    calendarDays.innerHTML = '';
+
+    // Add previous month's days
+    for (let i = firstDay - 1; i >= 0; i--) {
+        const day = document.createElement('div');
+        day.className = 'calendar-day other-month';
+        day.textContent = daysInPrevMonth - i;
+        calendarDays.appendChild(day);
+    }
+
+    // Add current month's days
+    const today = new Date();
+    for (let i = 1; i <= daysInMonth; i++) {
+        const day = document.createElement('div');
+        day.className = 'calendar-day';
+        day.textContent = i;
+
+        // Highlight today
+        if (year === today.getFullYear() && 
+            month === today.getMonth() && 
+            i === today.getDate()) {
+            day.classList.add('today');
+        }
+
+        // Add meetup indicator
+        if (meetupDates.includes(i)) {
+            day.classList.add('has-meetup');
+        }
+
+        calendarDays.appendChild(day);
+    }
+
+    // Add next month's days to fill the grid
+    const totalCells = calendarDays.children.length;
+    const remainingCells = 42 - totalCells; // 6 weeks * 7 days
+    for (let i = 1; i <= remainingCells; i++) {
+        const day = document.createElement('div');
+        day.className = 'calendar-day other-month';
+        day.textContent = i;
+        calendarDays.appendChild(day);
+    }
+}
+
+// Calendar navigation
+document.getElementById('prevMonth')?.addEventListener('click', () => {
+    currentDate.setMonth(currentDate.getMonth() - 1);
+    renderCalendar();
+});
+
+document.getElementById('nextMonth')?.addEventListener('click', () => {
+    currentDate.setMonth(currentDate.getMonth() + 1);
+    renderCalendar();
+});
+
+// Initialize calendar on page load
+if (document.getElementById('calendarDays')) {
+    renderCalendar();
 }

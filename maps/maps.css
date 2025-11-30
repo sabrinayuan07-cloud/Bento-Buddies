@@ -530,3 +530,499 @@ nav a {
 .success-message.active {
     display: block;
 }
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .hero-banner {
+        padding: 30px;
+    }
+
+    .hero-text h1 {
+        font-size: 42px;
+    }
+
+    .hero-image img {
+        width: 200px;
+    }
+
+    .main-content {
+        padding: 30px;
+    }
+}
+
+@media (max-width: 992px) {
+    nav button {
+        font-size: 16px;
+        padding: 8px 15px;
+    }
+
+    .hero-banner {
+        flex-direction: column;
+        text-align: center;
+        padding: 25px;
+    }
+
+    .hero-text h1 {
+        font-size: 38px;
+    }
+
+    .hero-image img {
+        width: 180px;
+    }
+
+    .main-content {
+        flex-direction: column;
+    }
+
+    .restaurant-card {
+        width: 100%;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    #map {
+        width: 100%;
+        height: 400px;
+    }
+}
+
+@media (max-width: 768px) {
+    nav {
+        padding: 15px 0;
+    }
+
+    .nav-container {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .nav-container button {
+        font-size: 14px;
+        padding: 6px 12px;
+    }
+
+    .hero-banner {
+        padding: 20px;
+    }
+
+    .hero-text h1 {
+        font-size: 32px;
+    }
+
+    .hero-text p {
+        font-size: 16px;
+    }
+
+    .hero-image img {
+        width: 150px;
+    }
+
+    .main-content {
+        padding: 20px;
+    }
+
+    .restaurant-card {
+        padding: 20px;
+    }
+
+    .card-image {
+        width: 100%;
+        height: 180px;
+    }
+
+    .restaurant-info h2 {
+        font-size: 22px;
+    }
+
+    .restaurant-details {
+        font-size: 14px;
+    }
+
+    .time-slots {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    #map {
+        height: 350px;
+    }
+
+    .modal-content {
+        padding: 25px;
+        max-width: 90%;
+    }
+}
+
+@media (max-width: 480px) {
+    .nav-container {
+        justify-content: center;
+    }
+
+    .nav-container button {
+        font-size: 12px;
+        padding: 5px 10px;
+    }
+
+    .hero-text h1 {
+        font-size: 28px;
+    }
+
+    .hero-text p {
+        font-size: 14px;
+    }
+
+    .hero-image img {
+        width: 120px;
+    }
+
+    .main-content {
+        padding: 15px;
+    }
+
+    .restaurant-card {
+        padding: 15px;
+    }
+
+    .card-image {
+        height: 150px;
+    }
+
+    .restaurant-info h2 {
+        font-size: 20px;
+    }
+
+    .time-slots {
+        grid-template-columns: 1fr;
+    }
+
+    .time-slot {
+        font-size: 13px;
+        padding: 8px;
+    }
+
+    #map {
+        height: 300px;
+    }
+
+    .modal-content {
+        padding: 20px;
+    }
+
+    .modal-content h2 {
+        font-size: 22px;
+    }
+
+    .create-btn {
+        padding: 12px 30px;
+        font-size: 16px;
+    }
+}
+
+/* ========================================
+   PHOTO VIEWER MODAL (Google Maps Style)
+   ======================================== */
+
+.photo-viewer-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.95);
+    z-index: 2000;
+    align-items: center;
+    justify-content: center;
+}
+
+.photo-viewer-modal.active {
+    display: flex;
+}
+
+.photo-viewer-content {
+    position: relative;
+    max-width: 90%;
+    max-height: 90%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.viewer-image {
+    max-width: 100%;
+    max-height: 90vh;
+    object-fit: contain;
+    cursor: zoom-in;
+    transition: transform 0.3s ease;
+}
+
+.viewer-image.zoomed {
+    transform: scale(2);
+    cursor: zoom-out;
+}
+
+.photo-close-btn {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    background: rgba(255, 255, 255, 0.9);
+    border: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    font-size: 36px;
+    cursor: pointer;
+    z-index: 2001;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.photo-close-btn:hover {
+    background: white;
+    transform: scale(1.1);
+}
+
+.photo-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.9);
+    border: none;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    font-size: 48px;
+    cursor: pointer;
+    z-index: 2001;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.photo-nav:hover {
+    background: white;
+    transform: translateY(-50%) scale(1.1);
+}
+
+.photo-prev {
+    left: 30px;
+}
+
+.photo-next {
+    right: 30px;
+}
+
+.photo-counter {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(255, 255, 255, 0.9);
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+}
+
+/* ========================================
+   IMPROVED FORM STYLING
+   ======================================== */
+
+.input-label {
+    display: block;
+    font-size: 16px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.time-picker-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.time-select {
+    flex: 1;
+    padding: 15px 20px;
+    border: 2px solid #e0e0e0;
+    border-radius: 15px;
+    font-size: 16px;
+    font-weight: 600;
+    background: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.time-select:focus {
+    outline: none;
+    border-color: #FF93A9;
+    box-shadow: 0 0 0 4px rgba(255, 147, 169, 0.1);
+}
+
+.time-separator {
+    font-size: 24px;
+    font-weight: 700;
+    color: #333;
+}
+
+.spots-hint {
+    display: block;
+    font-size: 12px;
+    color: #999;
+    margin-top: 5px;
+}
+
+#meetupDate {
+    width: 100%;
+    padding: 15px 20px;
+    border: 2px solid #e0e0e0;
+    border-radius: 15px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#meetupDate:focus {
+    outline: none;
+    border-color: #FF93A9;
+    box-shadow: 0 0 0 4px rgba(255, 147, 169, 0.1);
+}
+
+#meetupSpots {
+    padding: 15px 20px;
+    border: 2px solid #e0e0e0;
+    border-radius: 15px;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+#meetupSpots:focus {
+    outline: none;
+    border-color: #FF93A9;
+    box-shadow: 0 0 0 4px rgba(255, 147, 169, 0.1);
+}
+
+/* ========================================
+   SUCCESS POPUP
+   ======================================== */
+
+.success-popup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 3000;
+    align-items: center;
+    justify-content: center;
+}
+
+.success-popup.active {
+    display: flex;
+    animation: fadeIn 0.3s ease;
+}
+
+.success-content {
+    background: white;
+    border-radius: 25px;
+    padding: 50px;
+    text-align: center;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    animation: slideUp 0.3s ease;
+}
+
+.success-icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #4CAF50, #66BB6A);
+    color: white;
+    font-size: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    animation: scaleIn 0.5s ease;
+}
+
+.success-content h3 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.success-content p {
+    font-size: 16px;
+    color: #666;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes scaleIn {
+    0% {
+        transform: scale(0);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .photo-nav {
+        width: 50px;
+        height: 50px;
+        font-size: 36px;
+    }
+
+    .photo-close-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 28px;
+    }
+
+    .photo-prev {
+        left: 15px;
+    }
+
+    .photo-next {
+        right: 15px;
+    }
+
+    .time-picker-wrapper {
+        flex-direction: column;
+    }
+
+    .time-separator {
+        display: none;
+    }
+
+    .success-content {
+        padding: 40px 30px;
+    }
+}

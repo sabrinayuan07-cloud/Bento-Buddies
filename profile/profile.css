@@ -212,6 +212,13 @@ nav a {
     color: #666;
 }
 
+.email-display {
+    font-size: 18px !important;
+    color: #999 !important;
+    margin-top: 5px;
+    font-weight: 400 !important;
+}
+
 .name-input {
     font-size: 48px !important;
     font-weight: 700;
@@ -281,6 +288,11 @@ nav a {
     resize: vertical;
     min-height: 120px;
     font-family: inherit;
+}
+
+.bio-input::placeholder {
+    color: #ccc;
+    opacity: 1;
 }
 
 /* Personality Section */
@@ -592,4 +604,502 @@ nav a {
 
 .logout-btn:active {
     transform: translateY(0);
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .profile-container {
+        gap: 50px;
+        padding: 30px;
+    }
+
+    .profile-picture {
+        width: 200px;
+        height: 200px;
+    }
+
+    .name-section h1 {
+        font-size: 38px;
+    }
+}
+
+@media (max-width: 992px) {
+    nav button {
+        font-size: 16px;
+        padding: 8px 15px;
+    }
+
+    .profile-container {
+        flex-direction: column;
+        align-items: center;
+        gap: 40px;
+    }
+
+    .left-section {
+        width: 100%;
+        max-width: 400px;
+    }
+
+    .right-section {
+        width: 100%;
+    }
+
+    .profile-picture {
+        width: 180px;
+        height: 180px;
+    }
+
+    .favorite-foods {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 768px) {
+    nav {
+        padding: 15px 0;
+    }
+
+    .nav-container {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .nav-container button {
+        font-size: 14px;
+        padding: 6px 12px;
+    }
+
+    .profile-container {
+        padding: 20px;
+    }
+
+    .profile-picture {
+        width: 150px;
+        height: 150px;
+    }
+
+    .info-field {
+        font-size: 18px;
+    }
+
+    .food-item {
+        width: 80px;
+        height: 80px;
+    }
+
+    .food-item .food-emoji {
+        font-size: 36px;
+    }
+
+    .name-section h1 {
+        font-size: 32px;
+    }
+
+    .name-section p {
+        font-size: 24px;
+    }
+
+    .edit-btn {
+        font-size: 24px;
+    }
+
+    .bio-section {
+        padding: 25px 30px;
+    }
+
+    .bio-text {
+        font-size: 18px;
+    }
+
+    .peeking-panda {
+        width: 120px;
+        height: 80px;
+        top: -70px;
+    }
+
+    .tag {
+        font-size: 18px;
+        padding: 10px 25px;
+    }
+
+    .info-row {
+        font-size: 18px;
+    }
+
+    .action-buttons button {
+        font-size: 18px;
+        padding: 12px 35px;
+    }
+}
+
+@media (max-width: 480px) {
+    .nav-container {
+        justify-content: center;
+    }
+
+    .nav-container button {
+        font-size: 12px;
+        padding: 5px 10px;
+    }
+
+    .profile-container {
+        padding: 15px;
+    }
+
+    .profile-picture {
+        width: 120px;
+        height: 120px;
+    }
+
+    .info-field {
+        font-size: 16px;
+    }
+
+    .food-item {
+        width: 70px;
+        height: 70px;
+    }
+
+    .food-item .food-emoji {
+        font-size: 32px;
+    }
+
+    .favorite-foods {
+        gap: 15px;
+    }
+
+    .name-section h1 {
+        font-size: 28px;
+    }
+
+    .name-section p {
+        font-size: 20px;
+    }
+
+    .name-input {
+        font-size: 32px !important;
+        width: 100% !important;
+    }
+
+    .edit-btn {
+        font-size: 20px;
+    }
+
+    .bio-section {
+        padding: 20px 25px;
+    }
+
+    .bio-text {
+        font-size: 16px;
+    }
+
+    .peeking-panda {
+        width: 100px;
+        height: 65px;
+        top: -60px;
+        right: 50px;
+    }
+
+    .personality-section {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .personality-section .label {
+        font-size: 20px;
+    }
+
+    .tag {
+        font-size: 16px;
+        padding: 8px 20px;
+    }
+
+    .info-row {
+        font-size: 16px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .info-row .edit-input {
+        max-width: 100%;
+    }
+
+    .action-buttons {
+        flex-direction: column;
+    }
+
+    .action-buttons button {
+        width: 100%;
+        font-size: 16px;
+        padding: 12px 30px;
+    }
+
+    .modal-content {
+        padding: 30px 20px;
+        max-width: 90%;
+    }
+
+    .food-emoji-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+/* ========================================
+   CALENDAR SECTION
+   ======================================== */
+
+.calendar-section {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 2px solid #F0F0F0;
+}
+
+.calendar-title {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 25px;
+    color: #333;
+}
+
+.calendar-container {
+    background: white;
+    border-radius: 20px;
+    padding: 25px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    margin-bottom: 30px;
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.calendar-header h4 {
+    font-size: 22px;
+    font-weight: 700;
+    color: #333;
+}
+
+.calendar-nav {
+    background: #F9F9F9;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 24px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.calendar-nav:hover {
+    background: #FF93A9;
+    color: white;
+    transform: scale(1.1);
+}
+
+.calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.weekday {
+    text-align: center;
+    font-size: 14px;
+    font-weight: 700;
+    color: #999;
+    padding: 10px 0;
+}
+
+.calendar-days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+}
+
+.calendar-day {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.calendar-day:hover {
+    background: #FFF0F5;
+    transform: scale(1.05);
+}
+
+.calendar-day.today {
+    background: linear-gradient(135deg, #FF93A9, #FF8375);
+    color: white;
+    font-weight: 700;
+}
+
+.calendar-day.has-meetup::after {
+    content: '';
+    position: absolute;
+    bottom: 5px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #4CAF50;
+}
+
+.calendar-day.today.has-meetup::after {
+    background: white;
+}
+
+.calendar-day.other-month {
+    color: #CCC;
+}
+
+/* Upcoming Meetups */
+.upcoming-meetups h4 {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.meetup-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.meetup-item {
+    display: flex;
+    align-items: center;
+    background: white;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    transition: all 0.3s ease;
+}
+
+.meetup-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.meetup-date {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #FFE5EC, #FFF0F5);
+    margin-right: 15px;
+    flex-shrink: 0;
+}
+
+.date-day {
+    font-size: 24px;
+    font-weight: 700;
+    color: #FF93A9;
+}
+
+.date-month {
+    font-size: 12px;
+    font-weight: 600;
+    color: #FF93A9;
+    text-transform: uppercase;
+}
+
+.meetup-details {
+    flex: 1;
+}
+
+.meetup-details h5 {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.meetup-details p {
+    font-size: 14px;
+    color: #666;
+}
+
+.meetup-badge {
+    padding: 6px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 700;
+    background: #4CAF50;
+    color: white;
+}
+
+.meetup-badge.upcoming {
+    background: #2196F3;
+}
+
+/* Responsive Calendar */
+@media (max-width: 768px) {
+    .calendar-title {
+        font-size: 24px;
+    }
+
+    .calendar-container {
+        padding: 20px;
+    }
+
+    .calendar-header h4 {
+        font-size: 18px;
+    }
+
+    .calendar-day {
+        font-size: 14px;
+    }
+
+    .meetup-item {
+        padding: 15px;
+    }
+
+    .meetup-date {
+        width: 50px;
+        height: 50px;
+    }
+
+    .date-day {
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .calendar-days {
+        gap: 5px;
+    }
+
+    .calendar-day {
+        font-size: 12px;
+    }
+
+    .weekday {
+        font-size: 12px;
+    }
+
+    .meetup-item {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .meetup-badge {
+        width: 100%;
+        text-align: center;
+    }
 }
