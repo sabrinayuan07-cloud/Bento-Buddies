@@ -58,32 +58,11 @@ loginModal.addEventListener('click', (e) => {
 // Handle Email/Password Login
 loginForm.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const emailOrUsername = document.getElementById('email').value.trim();
+    const email = document.getElementById('email').value.trim();
     const password = document.getElementById('password').value;
 
     try {
-        let loginEmail = emailOrUsername;
-
-        // Check if input is username (doesn't contain @) or email
-        if (!emailOrUsername.includes('@')) {
-            // It's a username - need to look up the email
-            console.log('Looking up email for username:', emailOrUsername);
-            const usersRef = collection(db, 'users');
-            const q = query(usersRef, where('username', '==', emailOrUsername));
-            const querySnapshot = await getDocs(q);
-
-            if (querySnapshot.empty) {
-                showError(loginError, 'Username not found');
-                return;
-            }
-
-            // Get the email from the user document
-            const userDoc = querySnapshot.docs[0];
-            loginEmail = userDoc.data().email;
-            console.log('Found email for username:', loginEmail);
-        }
-
-        const userCredential = await signInWithEmailAndPassword(auth, loginEmail, password);
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
         console.log('Logged in successfully:', userCredential.user);
         // Redirect happens automatically via onAuthStateChanged
     } catch (error) {
@@ -281,7 +260,6 @@ function validateCurrentStep() {
 function saveCurrentStepData() {
     if (currentStep === 1) {
         signupData.email = document.getElementById('signupEmail').value;
-        signupData.username = document.getElementById('signupUsername').value.trim();
         signupData.password = document.getElementById('signupPassword').value;
     }
 
@@ -326,19 +304,13 @@ async function createAccount() {
         console.log('Starting account creation...');
         console.log('Signup data:', signupData);
 
-        // Determine username: use entered username or auto-generate
-        let finalUsername = signupData.username;
-        if (!finalUsername) {
-            // Auto-generate from name
-            finalUsername = generateUsername(signupData.firstName, signupData.lastName);
-            console.log('Auto-generated username:', finalUsername);
-        }
+        // Auto-generate username from name
+        let finalUsername = generateUsername(signupData.firstName, signupData.lastName);
+        console.log('Auto-generated username:', finalUsername);
 
-        // Check if username is available
+        // Check if username is available and add number suffix if needed
         let isAvailable = await isUsernameAvailable(finalUsername);
-
-        // If auto-generated username is taken, add number suffix
-        if (!isAvailable && !signupData.username) {
+        if (!isAvailable) {
             let counter = 1;
             let testUsername = finalUsername;
             while (!isAvailable && counter < 100) {
@@ -350,9 +322,6 @@ async function createAccount() {
                 counter++;
             }
             console.log('Username was taken, using:', finalUsername);
-        } else if (!isAvailable && signupData.username) {
-            // User entered username is taken - show error
-            throw new Error('Username is already taken. Please choose a different username.');
         }
 
         // Create Firebase Auth user
@@ -464,7 +433,6 @@ function resetSignupForm() {
 
     // Clear all inputs
     document.getElementById('signupEmail').value = '';
-    document.getElementById('signupUsername').value = '';
     document.getElementById('signupPassword').value = '';
     document.getElementById('signupPasswordConfirm').value = '';
     document.getElementById('signupFirstName').value = '';
@@ -478,13 +446,6 @@ function resetSignupForm() {
     document.querySelectorAll('.food-emoji-item').forEach(item => item.classList.remove('selected'));
     document.getElementById('foodSelectedCount').textContent = '0 / 3 selected';
     resetProfilePicPreview();
-
-    // Clear username availability message
-    const usernameAvailability = document.getElementById('usernameAvailability');
-    if (usernameAvailability) {
-        usernameAvailability.style.display = 'none';
-        usernameAvailability.textContent = '';
-    }
 }
 
 // Personality Tags
@@ -578,44 +539,6 @@ function resetProfilePicPreview() {
             <div class="text">Click to upload</div>
         </div>
     `;
-}
-
-// Real-time username availability checking
-const signupUsernameInput = document.getElementById('signupUsername');
-const usernameAvailability = document.getElementById('usernameAvailability');
-let usernameCheckTimeout;
-
-if (signupUsernameInput) {
-    signupUsernameInput.addEventListener('input', (e) => {
-        const username = e.target.value.trim();
-
-        // Clear previous timeout
-        clearTimeout(usernameCheckTimeout);
-
-        if (!username) {
-            usernameAvailability.style.display = 'none';
-            usernameAvailability.textContent = '';
-            return;
-        }
-
-        // Show checking message
-        usernameAvailability.style.display = 'block';
-        usernameAvailability.textContent = 'Checking availability...';
-        usernameAvailability.style.color = '#666';
-
-        // Debounce the check
-        usernameCheckTimeout = setTimeout(async () => {
-            const isAvailable = await isUsernameAvailable(username);
-
-            if (isAvailable) {
-                usernameAvailability.textContent = '✓ Username is available';
-                usernameAvailability.style.color = '#4CAF50';
-            } else {
-                usernameAvailability.textContent = '✗ Username is already taken';
-                usernameAvailability.style.color = '#c62828';
-            }
-        }, 500); // Wait 500ms after user stops typing
-    });
 }
 
 // Helper Functions
