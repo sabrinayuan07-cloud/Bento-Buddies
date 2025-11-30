@@ -1,5 +1,6 @@
 // Import Firebase modules
 import { auth, db, storage, googleProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup, onAuthStateChanged, doc, setDoc, getDoc, ref, uploadBytes, getDownloadURL } from '../firebase-config.js';
+import { collection, query, where, getDocs } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
 
 // DOM Elements
 const loginBtn = document.getElementById('loginBtn');
@@ -17,8 +18,10 @@ const submitBtn = document.getElementById('submitBtn');
 
 // Signup form data
 let currentStep = 1;
+let isCreatingAccount = false; // Flag to prevent redirect during signup
 let signupData = {
     email: '',
+    username: '',
     password: '',
     firstName: '',
     lastName: '',
@@ -34,8 +37,8 @@ let signupData = {
 
 // Check if user is already logged in
 onAuthStateChanged(auth, async (user) => {
-    if (user) {
-        // User is signed in, redirect to home
+    if (user && !isCreatingAccount) {
+        // User is signed in, redirect to home (but not during signup)
         window.location.href = '../home/home.html';
     }
 });
@@ -56,7 +59,7 @@ loginModal.addEventListener('click', (e) => {
 // Handle Email/Password Login
 loginForm.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const email = document.getElementById('email').value;
+    const email = document.getElementById('email').value.trim();
     const password = document.getElementById('password').value;
 
     try {
@@ -90,7 +93,7 @@ googleSignInBtn.addEventListener('click', async () => {
                 firstName: nameParts[0] || '',
                 lastName: nameParts.slice(1).join(' ') || '',
                 name: user.displayName || '',
-                username: `@${user.email?.split('@')[0] || 'user'}`,
+                username: user.email?.split('@')[0] || 'user',
                 profilePicture: user.photoURL || null,
                 year: '',
                 major: '',
@@ -102,8 +105,34 @@ googleSignInBtn.addEventListener('click', async () => {
                 createdAt: new Date().toISOString()
             };
             console.log('Saving Google user profile:', userData);
-            await setDoc(doc(db, 'users', user.uid), userData);
-            console.log('Google user profile saved successfully!');
+
+            try {
+                console.log('Attempting to save Google user to Firestore with UID:', user.uid);
+                await setDoc(doc(db, 'users', user.uid), userData);
+                console.log('✓ Google user profile saved successfully!');
+            } catch (firestoreError) {
+                console.error('❌ FIRESTORE SAVE FAILED FOR GOOGLE USER!');
+                console.error('Firestore error:', firestoreError);
+                console.error('Error code:', firestoreError.code);
+                console.error('Error message:', firestoreError.message);
+
+                if (firestoreError.code === 'permission-denied') {
+                    alert('⚠️ FIRESTORE PERMISSION DENIED!\n\nYou need to update your Firestore Security Rules.\n\nSee browser console for instructions.');
+                    console.error('========================================');
+                    console.error('FIRESTORE RULES NEEDED - Copy and paste into Firebase Console:');
+                    console.error('rules_version = \'2\';');
+                    console.error('service cloud.firestore {');
+                    console.error('  match /databases/{database}/documents {');
+                    console.error('    match /users/{userId} {');
+                    console.error('      allow read: if request.auth != null;');
+                    console.error('      allow write: if request.auth != null && request.auth.uid == userId;');
+                    console.error('    }');
+                    console.error('  }');
+                    console.error('}');
+                    console.error('========================================');
+                }
+                throw firestoreError;
+            }
         } else {
             console.log('Existing user profile found, logging in...');
         }
@@ -141,12 +170,7 @@ signupClose.addEventListener('click', () => {
     document.body.style.overflow = 'auto';
 });
 
-signupModal.addEventListener('click', (e) => {
-    if (e.target === signupModal) {
-        signupModal.classList.remove('active');
-        document.body.style.overflow = 'auto';
-    }
-});
+// Removed click outside to close - user must click X button to close signup modal
 
 // Step Navigation
 nextBtn.addEventListener('click', () => {
@@ -165,6 +189,23 @@ backBtn.addEventListener('click', () => {
 submitBtn.addEventListener('click', async () => {
     saveCurrentStepData();
     await createAccount();
+});
+
+// Handle Enter key to advance through signup steps
+document.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter' && signupModal.classList.contains('active')) {
+        e.preventDefault();
+
+        if (currentStep < 3) {
+            // On steps 1 and 2, Enter advances to next step
+            if (validateCurrentStep()) {
+                nextBtn.click();
+            }
+        } else {
+            // On step 3, Enter submits the form
+            submitBtn.click();
+        }
+    }
 });
 
 function showStep(step) {
@@ -249,13 +290,53 @@ function saveCurrentStepData() {
     }
 }
 
+// Check if username is available
+async function isUsernameAvailable(username) {
+    try {
+        const usersRef = collection(db, 'users');
+        const q = query(usersRef, where('username', '==', username));
+        const querySnapshot = await getDocs(q);
+        return querySnapshot.empty; // Returns true if no user has this username
+    } catch (error) {
+        console.error('Error checking username availability:', error);
+        return false;
+    }
+}
+
+// Generate username from first and last name
+function generateUsername(firstName, lastName) {
+    const username = `${firstName.toLowerCase()}.${lastName.toLowerCase()}`;
+    return username;
+}
+
 async function createAccount() {
     try {
+        isCreatingAccount = true; // Prevent onAuthStateChanged from redirecting
         submitBtn.disabled = true;
         submitBtn.textContent = 'Creating Account...';
 
         console.log('Starting account creation...');
         console.log('Signup data:', signupData);
+
+        // Auto-generate username from name
+        let finalUsername = generateUsername(signupData.firstName, signupData.lastName);
+        console.log('Auto-generated username:', finalUsername);
+
+        // Check if username is available and add number suffix if needed
+        let isAvailable = await isUsernameAvailable(finalUsername);
+        if (!isAvailable) {
+            let counter = 1;
+            let testUsername = finalUsername;
+            while (!isAvailable && counter < 100) {
+                testUsername = `${finalUsername}${counter}`;
+                isAvailable = await isUsernameAvailable(testUsername);
+                if (isAvailable) {
+                    finalUsername = testUsername;
+                }
+                counter++;
+            }
+            console.log('Username was taken, using:', finalUsername);
+        }
 
         // Create Firebase Auth user
         const userCredential = await createUserWithEmailAndPassword(auth, signupData.email, signupData.password);
@@ -278,7 +359,7 @@ async function createAccount() {
             firstName: signupData.firstName,
             lastName: signupData.lastName,
             name: `${signupData.firstName} ${signupData.lastName}`,
-            username: `@${signupData.firstName.toLowerCase()}.${signupData.lastName.toLowerCase()}`,
+            username: finalUsername,
             year: signupData.year,
             major: signupData.major,
             bio: signupData.bio || '',
@@ -293,18 +374,58 @@ async function createAccount() {
         console.log('Saving user profile to Firestore:', userData);
 
         // Create user profile in Firestore
-        await setDoc(doc(db, 'users', user.uid), userData);
+        try {
+            console.log('Attempting to save to Firestore with UID:', user.uid);
+            await setDoc(doc(db, 'users', user.uid), userData);
+            console.log('✓ User profile saved to Firestore successfully!');
+        } catch (firestoreError) {
+            console.error('❌ FIRESTORE SAVE FAILED!');
+            console.error('Firestore error:', firestoreError);
+            console.error('Error code:', firestoreError.code);
+            console.error('Error message:', firestoreError.message);
 
-        console.log('User profile saved to Firestore successfully!');
+            // This is likely a permissions error - show helpful message
+            if (firestoreError.code === 'permission-denied') {
+                alert('⚠️ FIRESTORE PERMISSION DENIED!\n\nYou need to update your Firestore Security Rules in Firebase Console.\n\nGo to: Firebase Console > Firestore Database > Rules\n\nAnd add the rules shown in the browser console.');
+                console.error('========================================');
+                console.error('FIRESTORE RULES NEEDED:');
+                console.error('rules_version = \'2\';');
+                console.error('service cloud.firestore {');
+                console.error('  match /databases/{database}/documents {');
+                console.error('    match /users/{userId} {');
+                console.error('      allow read: if request.auth != null;');
+                console.error('      allow write: if request.auth != null && request.auth.uid == userId;');
+                console.error('    }');
+                console.error('  }');
+                console.error('}');
+                console.error('========================================');
+            }
+            throw firestoreError; // Re-throw to be caught by outer catch
+        }
+
         console.log('Account created successfully! Redirecting...');
 
-        // Redirect happens automatically via onAuthStateChanged
+        // Redirect to home page after successful account creation
+        isCreatingAccount = false;
+        window.location.href = '../home/home.html';
 
     } catch (error) {
         console.error('Signup error:', error);
         console.error('Error code:', error.code);
         console.error('Error message:', error.message);
-        showError(signupError, getErrorMessage(error.code));
+
+        // Reset flag on error
+        isCreatingAccount = false;
+
+        // Show user-friendly error message
+        if (error.message && error.message.includes('permission')) {
+            showError(signupError, 'Permission error. Please check the browser console for instructions.');
+        } else if (error.message && error.message.includes('Username is already taken')) {
+            showError(signupError, error.message);
+        } else {
+            showError(signupError, getErrorMessage(error.code));
+        }
+
         submitBtn.disabled = false;
         submitBtn.textContent = 'Create Account';
     }
@@ -315,6 +436,7 @@ function resetSignupForm() {
     showStep(1);
     signupData = {
         email: '',
+        username: '',
         password: '',
         firstName: '',
         lastName: '',

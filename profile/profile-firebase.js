@@ -54,7 +54,6 @@ async function loadUserProfile(uid) {
 // Load profile data into UI
 function loadProfileData() {
     document.getElementById('nameDisplay').textContent = profileData.name || '';
-    document.getElementById('usernameDisplay').textContent = profileData.username || '';
     document.getElementById('yearDisplay').textContent = profileData.year || '';
     document.getElementById('majorDisplay').textContent = profileData.major || '';
     document.getElementById('bioDisplay').textContent = profileData.bio || '';
@@ -210,7 +209,6 @@ function toggleEdit() {
 
         // Show inputs, hide displays
         showInput('name');
-        showInput('username');
         showInput('year');
         showInput('major');
         showInput('bio');
@@ -262,7 +260,6 @@ async function saveProfile() {
         // Get all input values
         const updatedData = {
             name: document.getElementById('nameInput').value,
-            username: document.getElementById('usernameInput').value,
             year: document.getElementById('yearInput').value,
             major: document.getElementById('majorInput').value,
             bio: document.getElementById('bioInput').value,
@@ -287,7 +284,6 @@ async function saveProfile() {
 
         // Hide inputs, show displays
         hideInput('name');
-        hideInput('username');
         hideInput('year');
         hideInput('major');
         hideInput('bio');
@@ -319,7 +315,6 @@ function cancelEdit() {
 
     // Hide inputs, show displays
     hideInput('name');
-    hideInput('username');
     hideInput('year');
     hideInput('major');
     hideInput('bio');

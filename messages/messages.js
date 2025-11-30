@@ -4,7 +4,7 @@ const contacts = [
         id: 'eten',
         name: 'Eten Hunt',
         role: '',
-        avatar: 'images/panda1.png',
+        avatar: '../Images/panda1.png',
         lastMessage: "Thank you very much. I'm glad ...",
         time: '',
         unread: false
@@ -13,7 +13,7 @@ const contacts = [
         id: 'jakob',
         name: 'Jakob Saris',
         role: '',
-        avatar: 'images/panda2.png',
+        avatar: '../Images/panda2.png',
         lastMessage: 'You : Sure! let me tell you about w...',
         time: '',
         unread: false
@@ -22,7 +22,7 @@ const contacts = [
         id: 'jeremy1',
         name: 'Jeremy Zucker',
         role: '',
-        avatar: 'images/panda3.png',
+        avatar: '../Images/panda3.png',
         lastMessage: 'You : Sure! let me teach you about ...',
         time: '4 m Ago',
         unread: false
@@ -31,7 +31,7 @@ const contacts = [
         id: 'nadia',
         name: 'Nadia Lauren',
         role: '',
-        avatar: 'images/panda4.png',
+        avatar: '../Images/panda4.png',
         lastMessage: 'Is there anything I can help? Just ...',
         time: '5 m Ago',
         unread: true
@@ -40,7 +40,7 @@ const contacts = [
         id: 'emilyz',
         name: 'Emily Zhang',
         role: '',
-        avatar: 'images/panda5.png',
+        avatar: '../Images/panda5.png',
         lastMessage: 'You : Sure! let me teach you about ...',
         time: '4 m Ago',
         unread: false
@@ -49,7 +49,7 @@ const contacts = [
         id: 'carolina5',
         name: 'Carolina Fernandez',
         role: '',
-        avatar: 'images/panda1.png',
+        avatar: '../Images/panda1.png',
         lastMessage: 'You : Sure! let me teach you about ...',
         time: '4 m Ago',
         unread: false
