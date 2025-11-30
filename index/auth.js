@@ -18,6 +18,7 @@ const submitBtn = document.getElementById('submitBtn');
 
 // Signup form data
 let currentStep = 1;
+let isCreatingAccount = false; // Flag to prevent redirect during signup
 let signupData = {
     email: '',
     username: '',
@@ -36,8 +37,8 @@ let signupData = {
 
 // Check if user is already logged in
 onAuthStateChanged(auth, async (user) => {
-    if (user) {
-        // User is signed in, redirect to home
+    if (user && !isCreatingAccount) {
+        // User is signed in, redirect to home (but not during signup)
         window.location.href = '../home/home.html';
     }
 });
@@ -298,6 +299,7 @@ function generateUsername(firstName, lastName) {
 
 async function createAccount() {
     try {
+        isCreatingAccount = true; // Prevent onAuthStateChanged from redirecting
         submitBtn.disabled = true;
         submitBtn.textContent = 'Creating Account...';
 
@@ -391,12 +393,17 @@ async function createAccount() {
 
         console.log('Account created successfully! Redirecting...');
 
-        // Redirect happens automatically via onAuthStateChanged
+        // Redirect to home page after successful account creation
+        isCreatingAccount = false;
+        window.location.href = '../home/home.html';
 
     } catch (error) {
         console.error('Signup error:', error);
         console.error('Error code:', error.code);
         console.error('Error message:', error.message);
+
+        // Reset flag on error
+        isCreatingAccount = false;
 
         // Show user-friendly error message
         if (error.message && error.message.includes('permission')) {
