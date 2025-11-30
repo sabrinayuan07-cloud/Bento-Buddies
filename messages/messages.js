@@ -5,7 +5,7 @@ const contacts = [
         name: 'Eten Hunt',
         role: '',
         avatar: '../Images/panda1.png',
-        lastMessage: "Thank you very much. I'm glad ...",
+        lastMessage: "See you at 6! Can't wait to try it",
         time: '',
         unread: false
     },
@@ -14,7 +14,7 @@ const contacts = [
         name: 'Jakob Saris',
         role: '',
         avatar: '../Images/panda2.png',
-        lastMessage: 'You : Sure! let me tell you about w...',
+        lastMessage: 'You : Yeah! 12:30 at Mahoney\'s works',
         time: '',
         unread: false
     },
@@ -23,7 +23,7 @@ const contacts = [
         name: 'Jeremy Zucker',
         role: '',
         avatar: '../Images/panda3.png',
-        lastMessage: 'You : Sure! let me teach you about ...',
+        lastMessage: 'You : I know a great sushi place!',
         time: '4 m Ago',
         unread: false
     },
@@ -32,7 +32,7 @@ const contacts = [
         name: 'Nadia Lauren',
         role: '',
         avatar: '../Images/panda4.png',
-        lastMessage: 'Is there anything I can help? Just ...',
+        lastMessage: 'Down for brunch at noon?',
         time: '5 m Ago',
         unread: true
     },
@@ -41,7 +41,7 @@ const contacts = [
         name: 'Emily Zhang',
         role: '',
         avatar: '../Images/panda5.png',
-        lastMessage: 'You : Sure! let me teach you about ...',
+        lastMessage: 'You : Perfect! See you at Triple O\'s',
         time: '4 m Ago',
         unread: false
     },
@@ -50,7 +50,7 @@ const contacts = [
         name: 'Carolina Fernandez',
         role: '',
         avatar: '../Images/panda1.png',
-        lastMessage: 'You : Sure! let me teach you about ...',
+        lastMessage: 'You : The ramen there is amazing!',
         time: '4 m Ago',
         unread: false
     }
@@ -61,24 +61,48 @@ const conversations = {
         {
             id: 1,
             sender: 'received',
-            message: "Hi, I'm interested in joining you for hotpot tmr!",
+            message: "Hey! Want to grab lunch at Mahoney's today?",
             time: 'Today 11:56',
             hasVoice: true
+        },
+        {
+            id: 2,
+            sender: 'sent',
+            message: "Yeah! 12:30 at Mahoney's works for me",
+            time: 'Today 11:58'
         }
     ],
     eten: [
         {
             id: 1,
             sender: 'received',
-            message: "Thank you very much. I'm glad we could connect!",
+            message: "Just joined your meetup for dinner tonight!",
             time: 'Yesterday 14:23'
+        },
+        {
+            id: 2,
+            sender: 'sent',
+            message: "Awesome! It's at the new Thai place on Main Mall",
+            time: 'Yesterday 14:25'
+        },
+        {
+            id: 3,
+            sender: 'received',
+            message: "See you at 6! Can't wait to try it",
+            time: 'Yesterday 14:27'
         }
     ],
     jeremy1: [
         {
             id: 1,
+            sender: 'received',
+            message: 'Any good sushi spots near campus?',
+            time: '6 m Ago'
+        },
+        {
+            id: 2,
             sender: 'sent',
-            message: 'Sure! let me teach you about the campus.',
+            message: 'I know a great sushi place! Sushi Garden near the bookstore',
             time: '4 m Ago'
         }
     ],
@@ -86,24 +110,36 @@ const conversations = {
         {
             id: 1,
             sender: 'received',
-            message: 'Is there anything I can help? Just let me know!',
+            message: 'Down for brunch at noon?',
             time: '5 m Ago'
         }
     ],
-    jeremy2: [
+    emilyz: [
         {
             id: 1,
+            sender: 'received',
+            message: "I'm craving burgers, want to join?",
+            time: '10 m Ago'
+        },
+        {
+            id: 2,
             sender: 'sent',
-            message: 'Sure! let me teach you about the campus.',
-            time: '4 m Ago'
+            message: "Perfect! See you at Triple O's in 15?",
+            time: '8 m Ago'
         }
     ],
-    jeremy3: [
+    carolina5: [
         {
             id: 1,
+            sender: 'received',
+            message: 'Where should we go for our study break?',
+            time: '1 h Ago'
+        },
+        {
+            id: 2,
             sender: 'sent',
-            message: 'Sure! let me teach you about the campus.',
-            time: '4 m Ago'
+            message: 'The ramen there is amazing! Hokkaido Ramen Santouka?',
+            time: '58 m Ago'
         }
     ]
 };
@@ -116,6 +152,32 @@ const messagesArea = document.getElementById('messagesArea');
 const searchInput = document.getElementById('searchInput');
 const messageInput = document.getElementById('messageInput');
 const sendBtn = document.getElementById('sendBtn');
+
+function getInitials(name) {
+    const nameParts = name.split(' ');
+    if (nameParts.length >= 2) {
+        return nameParts[0][0] + nameParts[1][0];
+    }
+    return name.substring(0, 2);
+}
+
+function getGradientForName(name) {
+    const gradients = [
+        'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+        'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+        'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
+        'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)',
+        'linear-gradient(135deg, #fa709a 0%, #fee140 100%)',
+        'linear-gradient(135deg, #30cfd0 0%, #330867 100%)',
+        'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)',
+        'linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%)',
+        'linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%)',
+        'linear-gradient(135deg, #ff6e7f 0%, #bfe9ff 100%)'
+    ];
+
+    const index = name.charCodeAt(0) % gradients.length;
+    return gradients[index];
+}
 
 function renderContacts() {
     const filteredContacts = contacts.filter(contact =>
@@ -136,9 +198,12 @@ function renderContacts() {
             statusHTML = '<div class="read-check">✓✓</div>';
         }
 
+        const initials = getInitials(contact.name);
+        const gradient = getGradientForName(contact.name);
+
         contactDiv.innerHTML = `
-            <div class="contact-avatar">
-                <img src="${contact.avatar}" alt="${contact.name}">
+            <div class="contact-avatar" style="background: ${gradient};">
+                <span style="color: white; font-weight: 600; font-size: 16px;">${initials}</span>
             </div>
             <div class="contact-info">
                 <div class="contact-header">

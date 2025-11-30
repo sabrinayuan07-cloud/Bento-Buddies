@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Events - Food Buddies</title>
     <link rel="stylesheet" href="Events.css">
+    <link rel="stylesheet" href="../shared/animations.css">
 </head>
 <body>
     <!-- Navigation -->
@@ -70,6 +71,7 @@
         </div>
     </div>
 
+    <script src="../shared/animations.js"></script>
     <script>
         // Event data
         const todayEvents = [
@@ -163,14 +165,17 @@
         function startAutoScroll(carouselId, isPausedFlag) {
             const carousel = document.getElementById(carouselId);
             let scrollAmount = 0;
+            let animationFrameId;
 
-            const interval = setInterval(() => {
-                if ((carouselId === 'todayCarousel' && todayPaused) || 
+            // Use requestAnimationFrame for smoother 60fps animation
+            function smoothScroll() {
+                if ((carouselId === 'todayCarousel' && todayPaused) ||
                     (carouselId === 'futureCarousel' && futurePaused)) {
+                    animationFrameId = requestAnimationFrame(smoothScroll);
                     return;
                 }
 
-                scrollAmount += 0.5; // Slow and smooth
+                scrollAmount += 0.8; // Smooth scroll speed (increased for fluidity)
                 carousel.scrollLeft = scrollAmount;
 
                 // Reset scroll for infinite effect
@@ -179,12 +184,17 @@
                     scrollAmount = 0;
                     carousel.scrollLeft = 0;
                 }
-            }, 20);
+
+                animationFrameId = requestAnimationFrame(smoothScroll);
+            }
+
+            // Start the animation
+            animationFrameId = requestAnimationFrame(smoothScroll);
 
             if (carouselId === 'todayCarousel') {
-                todayScrollInterval = interval;
+                todayScrollInterval = animationFrameId;
             } else {
-                futureScrollInterval = interval;
+                futureScrollInterval = animationFrameId;
             }
         }
 
@@ -222,12 +232,22 @@
         // Search functionality
         document.getElementById('searchInput').addEventListener('input', (e) => {
             const searchTerm = e.target.value.toLowerCase();
-            
+
             const allCards = document.querySelectorAll('.event-card');
+            const shownEvents = new Set(); // Track unique events already shown
+
             allCards.forEach(card => {
                 const eventName = card.querySelector('h3').textContent.toLowerCase();
+                const eventKey = eventName + '-' + card.querySelector('p').textContent; // Unique key: name + time
+
                 if (eventName.includes(searchTerm)) {
-                    card.style.display = 'block';
+                    // Only show if this event hasn't been shown yet (avoid duplicates)
+                    if (!shownEvents.has(eventKey)) {
+                        card.style.display = 'block';
+                        shownEvents.add(eventKey);
+                    } else {
+                        card.style.display = 'none';
+                    }
                 } else {
                     card.style.display = 'none';
                 }

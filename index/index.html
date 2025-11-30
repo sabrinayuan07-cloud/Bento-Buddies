@@ -6,35 +6,39 @@
     <title>Bento Buddies - Find Bento Buddies at UBC</title>
     <link rel="stylesheet" href="index.css">
     <link rel="stylesheet" href="signup.css">
+    <link rel="stylesheet" href="../shared/animations.css">
 </head>
 <body>
     <!-- Hero Section -->
     <section class="hero-section">
         <div class="hero-content">
-            <div class="hero-text">
+            <div class="hero-text fade-in-left">
                 <h1>Find <span class="highlight">Bento Buddies.</span></h1>
                 <h1>Make Plans Easily.</h1>
                 <h1>Eat Happier at UBC.</h1>
                 <p>Match with students who want to eat at the same time and discover new spots around campus.</p>
-                <button class="login-btn" id="loginBtn">Log In</button>
+                <div class="hero-buttons">
+                    <button class="login-btn" id="loginBtn">Log In</button>
+                    <button class="signup-btn-hero" id="signupBtnHero">Sign Up</button>
+                </div>
             </div>
-            <div class="hero-image">
-                <img src="../Images/index.png" alt="Red Panda with Food">
+            <div class="hero-image fade-in-right parallax-layer" data-parallax-speed="0.3">
+                <img src="../Images/index.png" alt="Red Panda with Food" class="float">
             </div>
         </div>
     </section>
 
     <!-- Statistics Section -->
-    <section class="stats-section">
-        <div class="stat">
-            <h2>1 000+</h2>
+    <section class="stats-section animated-gradient">
+        <div class="stat fade-in-up stagger-1">
+            <h2 data-counter="1000">1 000+</h2>
             <p>Users</p>
         </div>
-        <div class="stat">
-            <h2>45+</h2>
+        <div class="stat fade-in-up stagger-2">
+            <h2 data-counter="45">45+</h2>
             <p>Restaurants Available</p>
         </div>
-        <div class="stat">
+        <div class="stat fade-in-up stagger-3">
             <h2>120+</h2>
             <p>Successful Meetups</p>
         </div>
@@ -220,6 +224,7 @@
         </div>
     </div>
 
+    <script src="../shared/animations.js"></script>
     <script type="module" src="auth.js"></script>
 </body>
 </html>

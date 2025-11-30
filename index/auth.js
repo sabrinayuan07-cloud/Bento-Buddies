@@ -4,6 +4,7 @@ import { collection, query, where, getDocs } from 'https://www.gstatic.com/fireb
 
 // DOM Elements
 const loginBtn = document.getElementById('loginBtn');
+const signupBtnHero = document.getElementById('signupBtnHero');
 const loginModal = document.getElementById('loginModal');
 const loginForm = document.getElementById('loginForm');
 const loginError = document.getElementById('loginError');
@@ -162,6 +163,13 @@ signupLink.addEventListener('click', (e) => {
     e.preventDefault();
     loginModal.classList.remove('active');
     signupModal.classList.add('active');
+    resetSignupForm();
+});
+
+// Hero Sign Up button
+signupBtnHero.addEventListener('click', () => {
+    signupModal.classList.add('active');
+    document.body.style.overflow = 'hidden';
     resetSignupForm();
 });
 
