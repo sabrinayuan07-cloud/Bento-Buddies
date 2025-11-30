@@ -117,26 +117,134 @@ nav a {
 }
 
 /* Responsive Design */
-@media (max-width: 768px) {
+@media (max-width: 1200px) {
     .hero-content {
-        flex-direction: column;
-        text-align: center;
+        gap: 40px;
     }
 
     .hero-text h1 {
-        font-size: 36px;
+        font-size: 42px;
+    }
+
+    .hero-image img {
+        width: 350px;
+    }
+}
+
+@media (max-width: 992px) {
+    nav {
+        padding: 15px 0;
+    }
+
+    .nav-container button {
+        font-size: 16px;
+        padding: 8px 15px;
+    }
+
+    .hero-content {
+        gap: 30px;
+        padding: 40px 20px;
+    }
+
+    .hero-text h1 {
+        font-size: 38px;
     }
 
     .hero-image img {
         width: 300px;
     }
 
+    .stat h2 {
+        font-size: 48px;
+    }
+
+    .stat p {
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .nav-container {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .nav-container button {
+        font-size: 14px;
+        padding: 6px 12px;
+    }
+
+    .hero-section {
+        padding: 40px 20px;
+        min-height: auto;
+    }
+
+    .hero-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 30px;
+    }
+
+    .hero-text h1 {
+        font-size: 32px;
+    }
+
+    .hero-text p {
+        font-size: 16px;
+        max-width: 100%;
+    }
+
+    .hero-image img {
+        width: 280px;
+    }
+
     .stats-section {
         flex-direction: column;
         text-align: center;
+        padding: 40px 20px;
+        gap: 30px;
     }
 
     .stat {
         text-align: center;
+    }
+
+    .stat h2 {
+        font-size: 42px;
+    }
+
+    .stat p {
+        font-size: 18px;
+    }
+}
+
+@media (max-width: 480px) {
+    .nav-container {
+        justify-content: center;
+    }
+
+    .nav-container button {
+        font-size: 12px;
+        padding: 5px 10px;
+    }
+
+    .hero-text h1 {
+        font-size: 28px;
+    }
+
+    .hero-text p {
+        font-size: 14px;
+    }
+
+    .hero-image img {
+        width: 220px;
+    }
+
+    .stat h2 {
+        font-size: 36px;
+    }
+
+    .stat p {
+        font-size: 16px;
     }
 }
