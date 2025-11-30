@@ -430,3 +430,72 @@
 .error-message.show {
     display: block;
 }
+
+/* Responsive Design for Signup Modal */
+@media (max-width: 768px) {
+    .signup-modal-content {
+        padding: 2rem 1.5rem;
+        max-width: 95%;
+        max-height: 95vh;
+    }
+
+    .signup-header h2 {
+        font-size: 24px;
+    }
+
+    .progress-step {
+        font-size: 12px;
+    }
+
+    .progress-circle {
+        width: 25px;
+        height: 25px;
+        font-size: 12px;
+    }
+
+    .food-emoji-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .food-emoji-item {
+        font-size: 28px;
+    }
+
+    .profile-pic-preview {
+        width: 120px;
+        height: 120px;
+    }
+}
+
+@media (max-width: 480px) {
+    .signup-modal-content {
+        padding: 1.5rem 1rem;
+    }
+
+    .signup-header h2 {
+        font-size: 20px;
+    }
+
+    .signup-subtitle {
+        font-size: 12px;
+    }
+
+    .food-emoji-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.3rem;
+    }
+
+    .food-emoji-item {
+        font-size: 24px;
+    }
+
+    .signup-btn {
+        font-size: 14px;
+        padding: 12px;
+    }
+
+    .profile-pic-preview {
+        width: 100px;
+        height: 100px;
+    }
+}
