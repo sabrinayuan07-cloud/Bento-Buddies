@@ -229,16 +229,6 @@
     </section>
 
     <script src="../shared/animations.js"></script>
-    <script type="module">
-        import { auth, onAuthStateChanged } from '../firebase-config.js';
-
-        // Check if user is authenticated with Firebase
-        onAuthStateChanged(auth, (user) => {
-            if (!user) {
-                // Not logged in, redirect to index
-                window.location.href = '../index/index.html';
-            }
-        });
-    </script>
+    <script type="module" src="../src/pages/home.js"></script>
 </body>
 </html>

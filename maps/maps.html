@@ -228,16 +228,6 @@
     </div>
 
     <script src="../shared/animations.js"></script>
-    <script src="maps.js"></script>
-    <script>
-        const API_KEY = 'AIzaSyBHplBjzNh6sM6Umtx4bgYJinjHHIaUR28';
-        
-        // Load Google Maps script
-        const script = document.createElement('script');
-        script.src = `https://maps.googleapis.com/maps/api/js?key=${API_KEY}&libraries=places&callback=initMap`;
-        script.async = true;
-        script.defer = true;
-        document.head.appendChild(script);
-    </script>
+    <script type="module" src="../src/pages/maps.js"></script>
 </body>
 </html>

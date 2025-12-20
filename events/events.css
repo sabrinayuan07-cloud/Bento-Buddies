@@ -459,3 +459,73 @@ nav a {
         font-size: 14px;
     }
 }
+/* Event Card Enhancements */
+.event-card {
+    position: relative;
+}
+
+.status-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    z-index: 10;
+    backdrop-filter: blur(10px);
+}
+
+.status-badge.joined {
+    background: rgba(76, 175, 80, 0.9);
+    color: white;
+}
+
+.status-badge.full {
+    background: rgba(158, 158, 158, 0.9);
+    color: white;
+}
+
+.event-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.attendees-preview {
+    display: flex;
+    align-items: center;
+}
+
+.spots-left {
+    font-size: 12px;
+    color: #4CAF50;
+    font-weight: 600;
+}
+
+.spots-left.full {
+    color: #999;
+}
+
+/* Modal Enhancements */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal.active {
+    display: flex;
+}
+
+.attendees-list img {
+    object-fit: cover;
+}
