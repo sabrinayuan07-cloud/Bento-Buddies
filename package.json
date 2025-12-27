@@ -20,5 +20,8 @@
   "homepage": "https://github.com/sabrinayuan07-cloud/HackCamp2025#readme",
   "dependencies": {
     "firebase": "^12.6.0"
+  },
+  "devDependencies": {
+    "firebase-tools": "^15.1.0"
   }
 }
