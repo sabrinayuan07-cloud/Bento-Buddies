@@ -67,31 +67,32 @@ export async function getMeetup(meetupId) {
  */
 export async function getMeetups(filters = {}) {
     try {
-        let q = collection(db, 'meetups');
-        const constraints = [];
-
-        // Apply filters
-        if (filters.status) {
-            constraints.push(where('status', '==', filters.status));
-        }
-        if (filters.date) {
-            constraints.push(where('date', '==', filters.date));
-        }
-        if (filters.createdBy) {
-            constraints.push(where('createdBy', '==', filters.createdBy));
-        }
-
-        // Always order by date
-        constraints.push(orderBy('date', 'asc'));
-
-        if (constraints.length > 0) {
-            q = query(q, ...constraints);
-        }
-
+        // Just get all meetups - no compound queries to avoid index requirements
+        const q = collection(db, 'meetups');
         const snapshot = await getDocs(q);
-        const meetups = [];
+
+        let meetups = [];
         snapshot.forEach(docSnap => {
             meetups.push({ id: docSnap.id, ...docSnap.data() });
+        });
+
+        // Apply filters in JavaScript
+        if (filters.status) {
+            meetups = meetups.filter(m => m.status === filters.status);
+        }
+        if (filters.date) {
+            meetups = meetups.filter(m => m.date === filters.date);
+        }
+        if (filters.createdBy) {
+            meetups = meetups.filter(m => m.createdBy === filters.createdBy);
+        }
+
+        // Sort by date in JavaScript
+        meetups.sort((a, b) => {
+            if (a.date === b.date) {
+                return a.time > b.time ? 1 : -1;
+            }
+            return a.date > b.date ? 1 : -1;
         });
 
         return { success: true, data: meetups };
@@ -105,27 +106,23 @@ export async function getMeetups(filters = {}) {
  */
 export function onMeetupsChange(callback, filters = {}) {
     try {
-        let q = collection(db, 'meetups');
-        const constraints = [];
-
-        if (filters.status) {
-            constraints.push(where('status', '==', filters.status));
-        }
-        if (filters.date) {
-            constraints.push(where('date', '==', filters.date));
-        }
-
-        constraints.push(orderBy('date', 'asc'));
-
-        if (constraints.length > 0) {
-            q = query(q, ...constraints);
-        }
+        // Just get all meetups, no complex queries to avoid index requirements
+        const q = collection(db, 'meetups');
 
         return onSnapshot(q, (snapshot) => {
             const meetups = [];
             snapshot.forEach(docSnap => {
                 meetups.push({ id: docSnap.id, ...docSnap.data() });
             });
+
+            // Sort by date in JavaScript
+            meetups.sort((a, b) => {
+                if (a.date === b.date) {
+                    return a.time > b.time ? 1 : -1;
+                }
+                return a.date > b.date ? 1 : -1;
+            });
+
             callback(meetups);
         });
     } catch (error) {

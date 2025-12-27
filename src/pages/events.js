@@ -46,8 +46,9 @@ function loadMeetups() {
         unsubscribeMeetups();
     }
 
-    // Real-time listener for meetups
+    // Real-time listener for meetups (no filters - filter in JS to avoid index requirement)
     unsubscribeMeetups = onMeetupsChange((meetups) => {
+        // Filter out cancelled meetups
         allMeetups = meetups.filter(m => m.status === 'open' || m.status === 'full');
 
         // Separate into today and future
@@ -55,13 +56,18 @@ function loadMeetups() {
         const todayMeetups = allMeetups.filter(m => m.date === today);
         const futureMeetups = allMeetups.filter(m => m.date > today);
 
+        console.log('Today:', today);
+        console.log('All meetups:', allMeetups.length);
+        console.log('Today meetups:', todayMeetups.length);
+        console.log('Future meetups:', futureMeetups.length);
+
         renderEvents(todayMeetups, 'todayCarousel');
         renderEvents(futureMeetups, 'futureCarousel');
 
         // Start carousels
         startCarousel('todayCarousel');
         startCarousel('futureCarousel');
-    }, { status: 'open' });
+    });
 }
 
 // Render events
