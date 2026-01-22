@@ -113,10 +113,16 @@ function searchRestaurants() {
 }
 
 function createMarker(place) {
-    const unwantedNames = ['university of british columbia', 'ubc', 'university'];
+    const unwantedNames = [
+        'university of british columbia', 'ubc', 'university',
+        'nitobe', 'triumf', 'museum of anthropology',
+        'staples', 'cibc', 'regent college',
+        'norman theatre', 'normand theatre',
+        'gage suites', 'west coast suites'
+    ];
     const placeName = place.name.toLowerCase();
 
-    if (unwantedNames.some(unwanted => placeName.includes(unwanted) && placeName === unwanted)) {
+    if (unwantedNames.some(unwanted => placeName.includes(unwanted))) {
         return;
     }
 
