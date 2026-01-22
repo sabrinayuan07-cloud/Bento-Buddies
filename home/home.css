@@ -368,8 +368,9 @@ nav a {
     display: flex;
     align-items: center;
     padding: 20px;
-    background: #F9F9F9;
+    background: white;
     border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
 }
 
@@ -406,7 +407,7 @@ nav a {
 .restaurant-stats .stat-value {
     font-size: 16px;
     font-weight: 600;
-    color: #c4324f;
+    color: #f55575;
 }
 
 /* Two Column Grid */
