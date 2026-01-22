@@ -281,10 +281,7 @@ nav a {
     font-weight: 700;
     text-align: center;
     margin-bottom: 60px;
-    background: linear-gradient(90deg, #FF8375 0%, #FF93A9 50%, #FFC5D3 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: #f55575;
 }
 
 /* Stats Grid */
@@ -322,7 +319,7 @@ nav a {
 
 .stat-card p {
     font-size: 15px;
-    color: #666;
+    color: #f55575;
     font-weight: 500;
     margin-bottom: 12px;
 }
@@ -412,7 +409,7 @@ nav a {
 .restaurant-stats .stat-value {
     font-size: 16px;
     font-weight: 600;
-    color: #FF93A9;
+    color: #f55575;
 }
 
 /* Two Column Grid */
