@@ -310,16 +310,13 @@ nav a {
 .stat-card h3 {
     font-size: 48px;
     font-weight: 700;
-    background: linear-gradient(135deg, #FF8375 0%, #FF93A9 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: #f55575;
     margin-bottom: 12px;
 }
 
 .stat-card p {
     font-size: 15px;
-    color: #f55575;
+    color: #666;
     font-weight: 500;
     margin-bottom: 12px;
 }
