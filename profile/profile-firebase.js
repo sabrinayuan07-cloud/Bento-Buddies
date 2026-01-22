@@ -1,7 +1,7 @@
 // Import Firebase modules
 import { auth, db, storage, onAuthStateChanged, signOut, doc, getDoc, updateDoc, ref, uploadBytes, getDownloadURL, EmailAuthProvider, reauthenticateWithCredential, updatePassword } from '../firebase-config.js';
 import { getUserRatings } from '../src/services/rating.service.js';
-import { getUserMeetupHistory } from '../src/services/meetup.service.js';
+import { getUserMeetupHistory, getUserMeetups } from '../src/services/meetup.service.js';
 
 let profileData = {};
 let isEditing = false;
@@ -44,6 +44,9 @@ async function loadUserProfile(uid) {
 
             // Load meetup history
             loadMeetupHistory(uid);
+
+            // Load upcoming meetups
+            loadUpcomingMeetups(uid);
         } else {
             // No profile found - show message
             console.error('No profile found in Firestore for user:', uid);
@@ -839,52 +842,74 @@ async function loadMeetupHistory(userId) {
     }
 }
 
-// Load and manage availability calendar
-async function loadAvailabilityCalendar(userId) {
+// Load upcoming meetups for profile calendar section
+async function loadUpcomingMeetups(userId) {
     try {
-        const userResult = await getUserProfile(userId);
-        if (!userResult.success) return;
+        const result = await getUserMeetups(userId);
 
-        const availability = userResult.data.availability || {};
+        if (!result.success) {
+            console.error('Failed to load upcoming meetups:', result.error);
+            return;
+        }
 
-        // Set up click handlers for availability cells
-        const cells = document.querySelectorAll('.availability-cell');
-        cells.forEach(cell => {
-            const day = cell.dataset.day;
-            const time = cell.dataset.time;
-            const key = `${day}-${time}`;
+        const meetups = result.data;
+        const meetupList = document.getElementById('meetupList');
 
-            // Set initial state from saved data
-            if (availability[key]) {
-                cell.classList.add('available');
-            }
+        if (!meetupList) return;
 
-            // Click handler to toggle availability
-            cell.addEventListener('click', async () => {
-                const isAvailable = cell.classList.contains('available');
-                
-                if (isAvailable) {
-                    cell.classList.remove('available');
-                    delete availability[key];
-                } else {
-                    cell.classList.add('available');
-                    availability[key] = true;
-                }
+        meetupList.innerHTML = '';
 
-                // Save to Firestore
-                try {
-                    await updateUserProfile(userId, { availability });
-                } catch (error) {
-                    console.error('Error saving availability:', error);
-                }
-            });
+        // Filter for future meetups only
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        const upcomingMeetups = meetups.filter(meetup => {
+            const meetupDate = new Date(meetup.date);
+            return meetupDate >= today;
+        });
+
+        if (upcomingMeetups.length === 0) {
+            meetupList.innerHTML = '<p style="text-align: center; color: #999; padding: 20px;">No upcoming meetups. Join some events to see them here!</p>';
+            return;
+        }
+
+        // Show up to 5 upcoming meetups
+        const displayMeetups = upcomingMeetups.slice(0, 5);
+
+        displayMeetups.forEach(meetup => {
+            const meetupDate = new Date(meetup.date);
+            const day = meetupDate.getDate();
+            const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            const month = monthNames[meetupDate.getMonth()];
+
+            // Check if today
+            const isToday = meetupDate.toDateString() === new Date().toDateString();
+            const badgeClass = isToday ? 'meetup-badge' : 'meetup-badge upcoming';
+            const badgeText = isToday ? 'Today' : 'Upcoming';
+
+            // Get other attendees (excluding current user)
+            const otherAttendees = meetup.attendees.filter(a => a.userId !== userId);
+            const withText = otherAttendees.length > 0
+                ? `with ${otherAttendees.map(a => a.name.split(' ')[0]).join(', ')}`
+                : 'solo meetup';
+
+            const meetupItem = document.createElement('div');
+            meetupItem.className = 'meetup-item';
+            meetupItem.innerHTML = `
+                <div class="meetup-date">
+                    <span class="date-day">${day}</span>
+                    <span class="date-month">${month}</span>
+                </div>
+                <div class="meetup-details">
+                    <h5>${meetup.restaurantName}</h5>
+                    <p>${meetup.time} • ${withText}</p>
+                </div>
+                <span class="${badgeClass}">${badgeText}</span>
+            `;
+
+            meetupList.appendChild(meetupItem);
         });
     } catch (error) {
-        console.error('Error loading availability:', error);
+        console.error('Error loading upcoming meetups:', error);
     }
-}
-
-// Initialize availability calendar on profile load
-if (uid) {
-    loadAvailabilityCalendar(uid);
 }

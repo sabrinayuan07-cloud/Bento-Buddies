@@ -9,7 +9,7 @@ body {
     background-color: #FFF5F3;
 }
 
-/* Navigation Bar */1
+/* Navigation Bar */
 nav {
     background-color: #FFF;
     padding: 20px 0;
@@ -486,7 +486,7 @@ nav a {
     background: linear-gradient(90deg, #A8E6CF, #7BDCB5);
     padding: 8px 15px;
     border-radius: 10px;
-    color: white;
+    color: #1a5c3a;
     font-weight: 600;
     font-size: 14px;
     transition: width 1s ease;

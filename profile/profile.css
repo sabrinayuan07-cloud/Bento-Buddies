@@ -316,7 +316,7 @@ nav a {
 
 .tag {
     background: linear-gradient(90deg, #FFB6C1 0%, #FFC5D3 100%);
-    color: white;
+    color: #7a2a4a;
     padding: 12px 30px;
     border-radius: 30px;
     font-size: 22px;
@@ -381,7 +381,7 @@ nav a {
 
 .dietary-tag {
     background: linear-gradient(135deg, #A8E6CF, #7BDCB5);
-    color: white;
+    color: #1a5c3a;
     padding: 8px 16px;
     border-radius: 20px;
     font-size: 16px;

@@ -80,7 +80,7 @@ nav a {
 
 .search-bar svg path,
 .search-bar svg circle {
-    stroke: rgba(255, 255, 255, 0.9);
+    stroke: #7a2a4a;
 }
 
 .search-bar input {
@@ -89,12 +89,12 @@ nav a {
     background: transparent;
     outline: none;
     font-size: 16px;
-    color: white;
+    color: #7a2a4a;
     font-weight: 500;
 }
 
 .search-bar input::placeholder {
-    color: rgba(255, 255, 255, 0.8);
+    color: #7a2a4a;
 }
 
 .red-panda img {
@@ -347,7 +347,7 @@ nav a {
 
 .event-info p {
     font-size: 14px;
-    color: #666;
+    color: #4a4a4a;
 }
 
 .dietary-icons {
