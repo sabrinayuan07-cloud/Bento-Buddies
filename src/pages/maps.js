@@ -92,7 +92,10 @@ function searchRestaurants() {
         });
     });
 
-    const keywords = ['chipotle', 'kinton ramen', 'blue chip', 'jamjar', 'big way'];
+    const keywords = ['chipotle', 'kinton ramen', 'blue chip', 'jamjar', 'big way',
+        'kyros kitchen', 'seoul hotdog', 'browns crafthouse', 'sesame',
+        'rain or shine ice cream', 'steves poke', 'sahel ubc', 'freshslice',
+        'gallery patio and lounge', 'grand noodle emporium'];
     keywords.forEach(keyword => {
         const request = {
             location: UBC_CENTER,
