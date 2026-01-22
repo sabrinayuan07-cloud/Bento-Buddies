@@ -37,7 +37,7 @@
             <div class="card-header">
                 <img id="restaurantImage" class="card-image" src="" alt="Restaurant">
                 <div class="search-bar">
-                    <input type="text" id="restaurantNameDisplay" readonly>
+                    <input type="text" id="restaurantNameDisplay" readonly aria-label="Selected restaurant name">
                     <span>🔍</span>
                 </div>
                 <div class="photo-badge">
@@ -128,7 +128,7 @@
             <div id="map"></div>
             <div class="selection-box">
                 <div class="selection-text">
-                    <span id="selectedRestaurant" style="color: #f55575;">Selected: None</span>
+                    <span id="selectedRestaurant" style="color: #c4324f;">Selected: None</span>
                 </div>
                 <button class="create-meetup-btn" id="createMeetupBtn" disabled>Create Meetup</button>
                 <div class="success-message" id="successMessage">
@@ -156,7 +156,7 @@
             <p class="modal-subtitle">At: <span id="modalRestaurantName">Restaurant Name</span></p>
 
             <div class="form-group">
-                <label class="input-label">📅 Select Date</label>
+                <label class="input-label" for="meetupDate">📅 Select Date</label>
                 <div class="input-wrapper">
                     <input type="date" id="meetupDate" required>
                     <span class="error-icon" id="dateError">⚠️</span>
@@ -166,7 +166,7 @@
             <div class="form-group">
                 <label class="input-label">🕐 Select Time</label>
                 <div class="time-picker-wrapper">
-                    <select id="meetupHour" class="time-select">
+                    <select id="meetupHour" class="time-select" aria-label="Select hour">
                         <option value="">Hour</option>
                         <option value="08">08</option>
                         <option value="09">09</option>
@@ -185,7 +185,7 @@
                         <option value="22">22</option>
                     </select>
                     <span class="time-separator">:</span>
-                    <select id="meetupMinute" class="time-select">
+                    <select id="meetupMinute" class="time-select" aria-label="Select minute">
                         <option value="">Min</option>
                         <option value="00">00</option>
                         <option value="15">15</option>
@@ -197,7 +197,7 @@
             </div>
 
             <div class="form-group">
-                <label class="input-label">👥 Spots Available (Max 10)</label>
+                <label class="input-label" for="meetupSpots">👥 Spots Available (Max 10)</label>
                 <div class="input-wrapper">
                     <input type="number" id="meetupSpots" placeholder="1-10" min="1" max="10" required>
                     <span class="spots-hint">Total spots including you (e.g., 3 spots = you + 2 others)</span>

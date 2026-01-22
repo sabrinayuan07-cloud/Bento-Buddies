@@ -174,7 +174,7 @@ function selectRestaurant(marker, place) {
     selectedPlace = place;
 
     document.getElementById('selectedRestaurant').innerHTML =
-        `<span>Selected: ${place.name}</span>`;
+        `<span style="color: #c4324f;">Selected: ${place.name}</span>`;
 
     document.getElementById('createMeetupBtn').disabled = false;
 
