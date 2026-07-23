@@ -98,10 +98,9 @@ function loadMeetups() {
         renderEvents(futureMeetups, 'futureCarousel');
         renderEvents(pastMeetups, 'pastCarousel');
 
-        // Start carousels
+        // Start carousels (not past events - they should be static)
         startCarousel('todayCarousel');
         startCarousel('futureCarousel');
-        startCarousel('pastCarousel');
     });
 }
 
@@ -125,8 +124,8 @@ function renderEvents(meetups, carouselId) {
         return;
     }
 
-    // Duplicate meetups for infinite scroll effect (only if more than 2 meetups)
-    const extendedMeetups = meetups.length > 2
+    // Duplicate meetups for infinite scroll effect (only if more than 2 meetups, not for past events)
+    const extendedMeetups = (carouselId !== 'pastCarousel' && meetups.length > 2)
         ? [...meetups, ...meetups, ...meetups]
         : meetups;
 
@@ -216,7 +215,7 @@ function createMeetupCard(meetup, originalIndex, carouselId) {
             <div class="attendees-preview">
                 ${renderAttendeesPreview(meetup.attendees)}
             </div>
-            <span class="spots-left ${isFull ? 'full' : ''}">${isFull ? 'Full' : `${spotsLeft} spot${spotsLeft !== 1 ? 's' : ''} left`}</span>
+            <span class="spots-left ${isFull ? 'full' : ''}" ${isFull ? 'style="color: black;"' : ''}>${isFull ? 'Full' : `${spotsLeft} spot${spotsLeft !== 1 ? 's' : ''} left`}</span>
         </div>
         ${statusBadge}
         ${recurringBadge}

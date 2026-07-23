@@ -4,3 +4,4 @@ node_modules/
 .env
 .env.local
 .vscode/
+src/config/maps-config.js

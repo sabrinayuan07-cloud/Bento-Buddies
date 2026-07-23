@@ -4,6 +4,7 @@ import { createMeetup } from '../services/meetup.service.js';
 import { requireAuth } from '../services/auth.service.js';
 import { showError, showSuccess, showLoading, hideLoading } from '../utils/error-handler.js';
 import { getTodayDate } from '../utils/date-helpers.js';
+import { GOOGLE_MAPS_API_KEY } from '../config/maps-config.js';
 
 let map;
 let service;
@@ -36,9 +37,8 @@ function loadGoogleMaps() {
     // Set up global callback
     window.initMap = initMap;
 
-    const API_KEY = 'AIzaSyBHplBjzNh6sM6Umtx4bgYJinjHHIaUR28';
     const script = document.createElement('script');
-    script.src = `https://maps.googleapis.com/maps/api/js?key=${API_KEY}&libraries=places&callback=initMap`;
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_API_KEY}&libraries=places&callback=initMap`;
     script.async = true;
     script.defer = true;
     document.head.appendChild(script);
@@ -88,6 +88,8 @@ function searchRestaurants() {
                         createMarker(place);
                     }
                 });
+            } else if (status !== google.maps.places.PlacesServiceStatus.ZERO_RESULTS) {
+                console.error(`Places nearbySearch (type=${type}) failed with status: ${status}`);
             }
         });
     });
@@ -110,6 +112,8 @@ function searchRestaurants() {
                 if (!exists) {
                     createMarker(place);
                 }
+            } else if (status !== google.maps.places.PlacesServiceStatus.ZERO_RESULTS) {
+                console.error(`Places nearbySearch (keyword=${keyword}) failed with status: ${status}`);
             }
         });
     });
@@ -187,6 +191,8 @@ function selectRestaurant(marker, place) {
         if (status === google.maps.places.PlacesServiceStatus.OK) {
             currentPlaceDetails = placeDetails;
             displayRestaurantCard(placeDetails);
+        } else {
+            console.error(`Places getDetails failed with status: ${status}`);
         }
     });
 }
